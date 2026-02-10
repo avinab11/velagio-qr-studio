@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tight">Why Lumina QR?</h2>
-          <div className="space-y-4 text-muted-foreground leading-relaxed text-[13px] md:text-sm">
+          <div className="space-y-4 text-muted-foreground leading-relaxed text-[15px] md:text-base">
             <p>
               In an era of subscription-locked tools and tracking pixels, Lumina (by Velagio) stands for the original promise of the web: accessibility, privacy, and permanence.
             </p>

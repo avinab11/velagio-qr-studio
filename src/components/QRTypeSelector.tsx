@@ -70,23 +70,23 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
       <Tabs value={settings.type} onValueChange={handleTypeChange} className="w-full">
         <TabsList className="grid grid-cols-3 md:grid-cols-5 h-auto p-1 bg-muted/50 rounded-2xl">
           <TabsTrigger value="url" className="flex flex-col gap-1 py-3 rounded-xl data-[state=active]:bg-background">
-            <Globe className="w-4 h-4" />
+            <Globe className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase">URL</span>
           </TabsTrigger>
           <TabsTrigger value="wifi" className="flex flex-col gap-1 py-3 rounded-xl data-[state=active]:bg-background">
-            <Wifi className="w-4 h-4" />
+            <Wifi className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase">Wi-Fi</span>
           </TabsTrigger>
           <TabsTrigger value="phone" className="flex flex-col gap-1 py-3 rounded-xl data-[state=active]:bg-background">
-            <Phone className="w-4 h-4" />
+            <Phone className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase">Phone</span>
           </TabsTrigger>
           <TabsTrigger value="social" className="flex flex-col gap-1 py-3 rounded-xl data-[state=active]:bg-background">
-            <Share2 className="w-4 h-4" />
+            <Share2 className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase">Social</span>
           </TabsTrigger>
           <TabsTrigger value="file" className="flex flex-col gap-1 py-3 rounded-xl data-[state=active]:bg-background">
-            <FileText className="w-4 h-4" />
+            <FileText className="w-5 h-5" />
             <span className="text-[10px] font-bold uppercase">File</span>
           </TabsTrigger>
         </TabsList>
