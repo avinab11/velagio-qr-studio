@@ -47,15 +47,11 @@ const HomePage: React.FC = () => {
     try {
       const filename = `velagio-qr-${Date.now()}`;
       
-      if (format === 'svg') {
-        const svg = qrRef.current.getSVG();
-        if (svg) downloadSVG(svg, filename);
-      } else {
+      if (format === 'pdf') {
         const canvas = await qrRef.current.getCanvas();
-        if (canvas) {
-          if (format === 'png') downloadPNG(canvas, filename);
-          if (format === 'pdf') downloadPDF(canvas, filename);
-        }
+        if (canvas) downloadPDF(canvas, filename);
+      } else {
+        await qrRef.current.download(format as 'png' | 'svg', filename);
       }
       
       toast.success(`${format.toUpperCase()} exported successfully!`);
@@ -238,15 +234,15 @@ const HomePage: React.FC = () => {
                   <p className="text-sm text-muted-foreground mb-6">
                     Velagio is a passion project built for the creative community. If you find it useful, consider supporting our development.
                   </p>
-                  <a
-                    href="https://buymeacoffee.com/velagio"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Button asChild className="w-full apple-button bg-white text-black border shadow-sm hover:shadow-md transition-all gap-2">
+                    <a
+                      href="https://buymeacoffee.com/velagio"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                    <Button className="w-full apple-button bg-white text-black border shadow-sm hover:shadow-md transition-all gap-2">
                       Buy us a coffee <ExternalLink className="w-4 h-4" />
-                       </Button>
                     </a>
+                  </Button>
                 </div>
               </div>
             </section>

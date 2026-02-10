@@ -40,7 +40,7 @@ function getQROptions(settings: QRSettings, size: number) {
     imageOptions: {
       crossOrigin: 'anonymous' as const,
       margin: 5,
-      imageSize: 0.6,
+      imageSize: 0.4,
     }
   };
 }
