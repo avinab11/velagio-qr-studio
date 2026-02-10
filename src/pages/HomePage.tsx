@@ -238,9 +238,15 @@ const HomePage: React.FC = () => {
                   <p className="text-sm text-muted-foreground mb-6">
                     Velagio is a passion project built for the creative community. If you find it useful, consider supporting our development.
                   </p>
-                  <Button className="w-full apple-button bg-white text-black border shadow-sm hover:shadow-md transition-all gap-2">
-                    Buy us a coffee <ExternalLink className="w-4 h-4" />
-                  </Button>
+                  <a
+                    href="https://buymeacoffee.com/velagio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >
+                    <Button className="w-full apple-button bg-white text-black border shadow-sm hover:shadow-md transition-all gap-2">
+                      Buy us a coffee <ExternalLink className="w-4 h-4" />
+                       </Button>
+                    </a>
                 </div>
               </div>
             </section>
