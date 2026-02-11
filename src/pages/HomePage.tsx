@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="space-y-2">
                   <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Generate Your QR Codes</h1>
-                  <p className="text-base text-muted-foreground font-normal">Create 100% free, unlimited QR codes for any use. No sign-ups</p>
+                  <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide">Create 100% free, unlimited QR codes for any use. No sign-ups</p>
                 </div>
                 
                 <Tabs value={mode} onValueChange={(v) => setMode(v as AppMode)} className="w-auto">
@@ -127,13 +127,13 @@ const HomePage: React.FC = () => {
               </div>
 
               <div className="apple-card p-10 bg-card/40 backdrop-blur-sm">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="popLayout" initial={false}>
                   {mode === 'single' ? (
                     <motion.div
                       key="single"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       className="space-y-6"
                     >
                       <QRTypeSelector settings={settings} onChange={setSettings} />

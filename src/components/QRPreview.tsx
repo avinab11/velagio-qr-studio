@@ -70,11 +70,11 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
     const timeoutId = setTimeout(() => {
       const options = getQROptions(settings, size);
       qrCode.current?.update(options);
-    }, 20);
+    }, 50);
 
     return () => clearTimeout(timeoutId);
   }, [settings, size]);
-
+  
   useImperativeHandle(ref, () => ({
     getCanvas: async () => {
       if (!qrCode.current) return null;
