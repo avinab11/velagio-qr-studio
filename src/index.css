@@ -65,11 +65,11 @@
 
 @layer components {
   .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl;
+    @apply bg-white/70 backdrop-blur-md lg:backdrop-blur-xl border border-white/20 shadow-xl;
   }
   
   .dark .glass {
-    @apply bg-black/70 backdrop-blur-xl border border-white/10 shadow-2xl;
+    @apply bg-black/70 backdrop-blur-md lg:backdrop-blur-xl border border-white/10 shadow-2xl;
   }
 
   .apple-card {

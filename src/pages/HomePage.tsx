@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="space-y-2">
                   <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Generate Your QR Codes</h1>
-                  <p className="text-base text-muted-foreground font-light">Create 100% free, unlimited QR codes for any use. No sign-ups</p>
+                  <p className="text-[17px] md:text-lg text-muted-foreground font-light">Create 100% free, unlimited QR codes for any use. No sign-ups</p>
                 </div>
                 
                 <Tabs value={mode} onValueChange={(v) => setMode(v as AppMode)} className="w-auto">
@@ -126,7 +126,7 @@ const HomePage: React.FC = () => {
                 </Tabs>
               </div>
 
-              <div className="apple-card p-10 bg-card/40 backdrop-blur-sm">
+              <div className="apple-card p-10 bg-card/40 backdrop-blur-none lg:backdrop-blur-sm">
                 <AnimatePresence mode="wait">
                   {mode === 'single' ? (
                     <motion.div
@@ -185,7 +185,7 @@ const HomePage: React.FC = () => {
             {/* Mobile Live Preview - shown above Privacy on small screens */}
             {showPreview && !isDesktop && (
               <section>
-                <div className="apple-card p-4 space-y-6 bg-card/80 backdrop-blur-sm overflow-hidden">
+                <div className="apple-card p-4 space-y-6 bg-card/80 backdrop-blur-none lg:backdrop-blur-sm overflow-hidden">
                   <div className="flex justify-between items-center mb-2 px-2">
                     <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Live Preview</h3>
                     <Badge variant="secondary" className="rounded-full bg-green-500/10 text-green-600 border-none font-bold text-[10px]">REAL-TIME</Badge>
