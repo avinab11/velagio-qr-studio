@@ -29,11 +29,6 @@ const Footer: React.FC = () => {
           </div>
           <p className="text-sm text-muted-foreground">© 2026 Velagio QR Studio. All rights reserved.</p>
           <div className="flex flex-col md:items-end gap-6 mt-6">
-            <div className="flex gap-6">
-              <Link to="/blog" className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors">Blogs</Link>
-              <Link to="/privacy" className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
-              <Link to="/terms" className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors">Terms of Use</Link>
-            </div>
             <div className="flex gap-4">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Instagram className="w-5 h-5" />

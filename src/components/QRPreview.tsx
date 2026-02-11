@@ -62,17 +62,12 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update QR in real-time when settings change (no teardown/recreate)
+  // Update QR in real-time when settings change
   useEffect(() => {
     if (!qrCode.current) return;
     
-    // Use a small timeout to debounce rapid changes during slider dragging
-    const timeoutId = setTimeout(() => {
-      const options = getQROptions(settings, size);
-      qrCode.current?.update(options);
-    }, 50);
-
-    return () => clearTimeout(timeoutId);
+    const options = getQROptions(settings, size);
+    qrCode.current.update(options);
   }, [settings, size]);
   
   useImperativeHandle(ref, () => ({

@@ -21,7 +21,6 @@ import QRTypeSelector from '@/components/QRTypeSelector';
 import BulkQRManager from '@/components/BulkQRManager';
 import { QRSettings, DEFAULT_SETTINGS, hasQRContent } from '@/types/qr';
 import { downloadPNG, downloadSVG, downloadPDF, downloadBulkZIP } from '@/lib/export';
-import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
 
 type AppMode = 'single' | 'bulk';
@@ -55,12 +54,6 @@ const HomePage: React.FC = () => {
       }
       
       toast.success(`${format.toUpperCase()} exported successfully!`);
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#007AFF', '#FFFFFF', '#000000']
-      });
     } catch (error) {
       toast.error('Export failed. Please try again.');
     }
@@ -73,11 +66,6 @@ const HomePage: React.FC = () => {
     }));
 
     await downloadBulkZIP(data, 'velagio-bulk-qrs');
-    confetti({
-      particleCount: 150,
-      spread: 100,
-      origin: { y: 0.6 }
-    });
   };
 
   const handleBulkDownload = async () => {
