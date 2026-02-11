@@ -1,7 +1,6 @@
 import React, { useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 import { QRSettings } from '@/types/qr';
-import { motion } from 'framer-motion';
 
 interface QRPreviewProps {
   settings: QRSettings;
@@ -19,7 +18,7 @@ function getQROptions(settings: QRSettings, size: number) {
   return {
     width: size,
     height: size,
-    type: 'canvas' as const,
+    type: 'svg' as const,
     data: settings.content || ' ',
     image: settings.logo,
     dotsOptions: {
@@ -66,11 +65,12 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
   useEffect(() => {
     if (!qrCode.current) return;
     
-    // Use a small timeout to debounce rapid changes during slider dragging
+    // Increase debounce slightly to 48ms (approx 3 frames) for better stability on lower-end devices
+    // during rapid property changes like the roundness slider.
     const timeoutId = setTimeout(() => {
       const options = getQROptions(settings, size);
       qrCode.current?.update(options);
-    }, 20);
+    }, 48);
 
     return () => clearTimeout(timeoutId);
   }, [settings, size]);
@@ -110,18 +110,17 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
 
   return (
     <div className="flex justify-center items-center py-4">
-      <motion.div
-        layout
+      <div
         className="relative flex flex-col items-center justify-center bg-white rounded-3xl border border-border/40 shadow-sm overflow-hidden p-6 sm:p-8"
         id={id}
       >
         <div 
-          className="p-3 rounded-2xl flex items-center justify-center transition-colors duration-300"
+          className="p-3 rounded-2xl flex items-center justify-center"
           style={{ backgroundColor: settings.background }}
         >
-          <div ref={qrRef} className="[&>canvas]:max-w-full [&>canvas]:h-auto" />
+          <div ref={qrRef} className="[&>canvas]:max-w-full [&>canvas]:h-auto [&>svg]:max-w-full [&>svg]:h-auto" />
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 });

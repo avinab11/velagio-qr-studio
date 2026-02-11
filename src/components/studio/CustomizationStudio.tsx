@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Upload, X, Palette, Sliders, Image as ImageIcon } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface CustomizationStudioProps {
   settings: QRSettings;
