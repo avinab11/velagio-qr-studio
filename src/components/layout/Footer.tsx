@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-muted/30 border-t border-border/50 py-20 px-6 md:px-12">
+    <footer className="bg-muted/30 border-t border-border/50 py-20 px-6 md:px-12" style={{ transform: 'translateZ(0)' }}>
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tight">Why Lumina QR?</h2>
@@ -29,6 +29,17 @@ const Footer: React.FC = () => {
           </div>
           <p className="text-sm text-muted-foreground">© 2026 Velagio QR Studio. All rights reserved.</p>
           <div className="flex flex-col md:items-end gap-6 mt-6">
+            <div className="flex gap-5">
+              <a href="https://velagio.com/blogs" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Blogs
+              </a>
+              <a href="https://velagio.com/privacy" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Privacy Policy
+              </a>
+              <a href="https://velagio.com/terms" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Terms of Use
+              </a>
+            </div>
             <div className="flex gap-4">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Instagram className="w-5 h-5" />

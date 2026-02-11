@@ -65,15 +65,34 @@
 
 @layer components {
   .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl;
+    @apply bg-white/70 border border-white/20 shadow-xl;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
   }
   
   .dark .glass {
-    @apply bg-black/70 backdrop-blur-xl border border-white/10 shadow-2xl;
+    @apply bg-black/70 border border-white/10 shadow-2xl;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+
+  @media (max-width: 768px) {
+    .glass {
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
   }
 
   .apple-card {
-    @apply rounded-3xl border-[0.5px] border-border/50 bg-card shadow-lg hover:shadow-xl transition-all duration-500;
+    @apply rounded-3xl border-[0.5px] border-border/50 bg-card shadow-lg;
+    transition: box-shadow 0.3s ease;
+    will-change: auto;
+  }
+
+  @media (hover: hover) {
+    .apple-card:hover {
+      @apply shadow-xl;
+    }
   }
 
   .apple-button {
