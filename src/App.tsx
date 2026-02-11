@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HomePage from '@/pages/HomePage';
+import PrivacyPage from '@/pages/PrivacyPage';
+import TermsPage from '@/pages/TermsPage';
+import BlogPage from '@/pages/BlogPage';
+import BlogPostPage from '@/pages/BlogPostPage';
 import { Toaster } from 'sonner';
 import { useEffect } from 'react';
 
@@ -26,6 +30,10 @@ const App: React.FC = () => {
         
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
         </Routes>
 
         <Footer />

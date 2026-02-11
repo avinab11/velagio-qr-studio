@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-muted/30 border-t border-border/50 py-20 px-6 md:px-12" style={{ transform: 'translateZ(0)' }}>
+    <footer className="bg-muted/30 border-t border-border/50 py-20 px-6 md:px-12">
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tight">Why Lumina QR?</h2>
-          <div className="space-y-4 text-muted-foreground leading-relaxed text-[14px] md:text-[15px] font-light">
+          <div className="space-y-4 text-muted-foreground leading-relaxed text-[15px] md:text-base">
             <p>
               In an era of subscription-locked tools and tracking pixels, Lumina (by Velagio) stands for the original promise of the web: accessibility, privacy, and permanence.
             </p>
@@ -29,16 +29,10 @@ const Footer: React.FC = () => {
           </div>
           <p className="text-sm text-muted-foreground">© 2026 Velagio QR Studio. All rights reserved.</p>
           <div className="flex flex-col md:items-end gap-6 mt-6">
-            <div className="flex gap-5">
-              <a href="https://velagio.com/blogs" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Blogs
-              </a>
-              <a href="https://velagio.com/privacy" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Privacy Policy
-              </a>
-              <a href="https://velagio.com/terms" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Terms of Use
-              </a>
+            <div className="flex gap-6">
+              <Link to="/blog" className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors">Blogs</Link>
+              <Link to="/privacy" className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors">Terms of Use</Link>
             </div>
             <div className="flex gap-4">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">

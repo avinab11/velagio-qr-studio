@@ -21,6 +21,7 @@ import QRTypeSelector from '@/components/QRTypeSelector';
 import BulkQRManager from '@/components/BulkQRManager';
 import { QRSettings, DEFAULT_SETTINGS, hasQRContent } from '@/types/qr';
 import { downloadPNG, downloadSVG, downloadPDF, downloadBulkZIP } from '@/lib/export';
+import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
 
 type AppMode = 'single' | 'bulk';
@@ -54,6 +55,12 @@ const HomePage: React.FC = () => {
       }
       
       toast.success(`${format.toUpperCase()} exported successfully!`);
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#007AFF', '#FFFFFF', '#000000']
+      });
     } catch (error) {
       toast.error('Export failed. Please try again.');
     }
@@ -66,6 +73,11 @@ const HomePage: React.FC = () => {
     }));
 
     await downloadBulkZIP(data, 'velagio-bulk-qrs');
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 }
+    });
   };
 
   const handleBulkDownload = async () => {
@@ -97,7 +109,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="space-y-2">
                   <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Generate Your QR Codes</h1>
-                  <p className="text-base md:text-lg text-muted-foreground font-extralight tracking-wide">Create 100% free, unlimited QR codes for any use. No sign-ups</p>
+                  <p className="text-base text-muted-foreground font-normal">Create 100% free, unlimited QR codes for any use. No sign-ups</p>
                 </div>
                 
                 <Tabs value={mode} onValueChange={(v) => setMode(v as AppMode)} className="w-auto">
@@ -115,13 +127,13 @@ const HomePage: React.FC = () => {
               </div>
 
               <div className="apple-card p-10 bg-card/40 backdrop-blur-sm">
-                <AnimatePresence mode="popLayout" initial={false}>
+                <AnimatePresence mode="wait">
                   {mode === 'single' ? (
                     <motion.div
                       key="single"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
                       className="space-y-6"
                     >
                       <QRTypeSelector settings={settings} onChange={setSettings} />
