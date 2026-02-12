@@ -1,14 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
 export const handler = async (event) => {
-  // This log will finally appear in your Netlify dashboard
-  console.log("Function triggered for ID:", event.queryStringParameters?.id);
-
   const supabaseUrl = process.env.VITE_SUPABASE_URL;
   const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    console.error("Missing Environment Variables");
     return { statusCode: 500, body: "Internal Configuration Error" };
   }
 
@@ -20,9 +16,10 @@ export const handler = async (event) => {
       return { statusCode: 400, body: "Missing QR ID" };
     }
 
+    // This section now matches your Supabase table names exactly
     const { data, error } = await supabase
-      .from('qrs')
-      .select('destination_url')
+      .from('dynamic_codes') 
+      .select('target_url')
       .eq('id', id)
       .single();
 
@@ -31,11 +28,11 @@ export const handler = async (event) => {
       return { statusCode: 404, body: "Link not found" };
     }
 
-    // Success! Redirect the user
+    // Redirect the user to the destination found in your table
     return {
       statusCode: 302,
       headers: { 
-        'Location': data.destination_url,
+        'Location': data.target_url,
         'Cache-Control': 'no-cache'
       },
       body: ''
@@ -45,4 +42,3 @@ export const handler = async (event) => {
     return { statusCode: 500, body: "Internal Server Error" };
   }
 };
-
