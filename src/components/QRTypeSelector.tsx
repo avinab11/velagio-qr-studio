@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Badge } from '@/components/ui/badge';
 import { 
   Globe, 
   Wifi, 
@@ -10,18 +12,36 @@ import {
   FileText,
   Instagram,
   Youtube,
-  Music2
+  Music2,
+  Zap
 } from 'lucide-react';
 import { QRSettings, QRType, WiFiData, SocialData } from '@/types/qr';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { supabase } from '@/lib/supabase';
+import { toast } from 'sonner';
 
 interface QRTypeSelectorProps {
   settings: QRSettings;
   onChange: (settings: QRSettings) => void;
 }
 
+const RESOLVE_URL = 'https://armx0fqk--resolve.functions.blink.new';
+
+const generateRandomString = (length: number) => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+};
+
 const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) => {
   const formatContent = (type: QRType, data: any): string => {
+    if (data.isDynamic && data.dynamicId) {
+      return `${RESOLVE_URL}?id=${data.dynamicId}`;
+    }
+
     switch (type) {
       case 'url':
         return data.url || '';
@@ -59,6 +79,54 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
     onChange(newSettings);
   };
 
+  const handleDynamicToggle = async (checked: boolean) => {
+    if (checked) {
+      // Check if user has content
+      const content = formatContent(settings.type, settings);
+      if (!content) {
+        toast.error('Please enter some content before making it dynamic.');
+        return;
+      }
+
+      try {
+        const id = generateRandomString(6);
+        const token = generateRandomString(32);
+
+        const { error } = await supabase.from('dynamic_codes').insert({
+          id,
+          target_url: content,
+          edit_token: token,
+          scan_count: 0,
+          is_blocked: false,
+        });
+
+        if (error) throw error;
+
+        // Save to localStorage
+        const myCodes = JSON.parse(localStorage.getItem('my_codes') || '[]');
+        myCodes.push(token);
+        localStorage.setItem('my_codes', JSON.stringify(myCodes));
+
+        updateSettings({ 
+          isDynamic: true, 
+          dynamicId: id, 
+          editToken: token 
+        });
+        
+        toast.success('Dynamic QR created! You can now edit the link later.');
+      } catch (err) {
+        console.error(err);
+        toast.error('Failed to create dynamic QR. Please try again.');
+      }
+    } else {
+      updateSettings({ 
+        isDynamic: false, 
+        dynamicId: undefined, 
+        editToken: undefined 
+      });
+    }
+  };
+
   const updateSettings = (updates: Partial<QRSettings>) => {
     const nextSettings = { ...settings, ...updates };
     nextSettings.content = formatContent(nextSettings.type, nextSettings);
@@ -67,6 +135,23 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center justify-between p-4 bg-primary/5 rounded-2xl border border-primary/10">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-bold uppercase tracking-wider">Dynamic QR</h3>
+            <Badge variant="secondary" className="bg-primary/20 text-primary border-none text-[10px] font-bold">BETA</Badge>
+          </div>
+          <p className="text-[11px] text-muted-foreground">Allows you to change the destination URL after printing.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Zap className={`w-4 h-4 transition-colors ${settings.isDynamic ? 'text-primary' : 'text-muted-foreground/30'}`} />
+          <Switch 
+            checked={settings.isDynamic} 
+            onCheckedChange={handleDynamicToggle}
+          />
+        </div>
+      </div>
+
       <Tabs value={settings.type} onValueChange={handleTypeChange} className="w-full">
         <TabsList className="grid grid-cols-3 md:grid-cols-5 h-auto p-1 bg-muted/50 rounded-2xl">
           <TabsTrigger value="url" className="flex flex-col gap-1 py-3 rounded-xl data-[state=active]:bg-background">

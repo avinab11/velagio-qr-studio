@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HomePage from '@/pages/HomePage';
+import ManagePage from '@/pages/ManagePage';
+import BlockedPage from '@/pages/BlockedPage';
 import PrivacyPage from '@/pages/PrivacyPage';
 import TermsPage from '@/pages/TermsPage';
 import BlogPage from '@/pages/BlogPage';
@@ -30,6 +32,8 @@ const App: React.FC = () => {
         
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/manage" element={<ManagePage />} />
+          <Route path="/blocked" element={<BlockedPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/blog" element={<BlogPage />} />

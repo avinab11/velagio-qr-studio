@@ -26,6 +26,9 @@ export interface QRSettings {
   roundness: number;
   pixelStyle: QRStyle;
   logo?: string;
+  isDynamic?: boolean;
+  dynamicId?: string;
+  editToken?: string;
 }
 
 export const DEFAULT_SETTINGS: QRSettings = {
@@ -36,6 +39,7 @@ export const DEFAULT_SETTINGS: QRSettings = {
   background: '#FFFFFF',
   roundness: 0,
   pixelStyle: 'square',
+  isDynamic: false,
 };
 
 /** Check if the user has entered meaningful QR content */

@@ -16,17 +16,26 @@ const Navbar: React.FC = () => {
         </div>
       </Link>
 
-      <div className="hidden md:flex items-center gap-4">
-        <Badge variant="outline" className="rounded-full bg-primary/5 text-primary border-primary/20 px-3 py-1 flex items-center gap-2 hover:bg-primary/10 transition-colors">
-          <ShieldCheck className="w-3 h-3" />
-          <span className="text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">100% Client-Side Private</span>
-        </Badge>
-        
-        <span className="text-muted-foreground/30">•</span>
-        <div className="flex items-center gap-1.5 text-foreground">
-          <Zap className="w-3.5 h-3.5 fill-current" />
-          <span className="text-[11px] font-bold tracking-tight whitespace-nowrap">Fast & Free</span>
+      <div className="hidden md:flex items-center gap-6">
+        <div className="flex items-center gap-4">
+          <Badge variant="outline" className="rounded-full bg-primary/5 text-primary border-primary/20 px-3 py-1 flex items-center gap-2 hover:bg-primary/10 transition-colors">
+            <ShieldCheck className="w-3 h-3" />
+            <span className="text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">100% Client-Side Private</span>
+          </Badge>
+          
+          <span className="text-muted-foreground/30">•</span>
+          <div className="flex items-center gap-1.5 text-foreground">
+            <Zap className="w-3.5 h-3.5 fill-current" />
+            <span className="text-[11px] font-bold tracking-tight whitespace-nowrap">Fast & Free</span>
+          </div>
         </div>
+
+        <Button asChild variant="ghost" className="apple-button h-10 px-5 gap-2 rounded-full border border-border/40 hover:bg-muted/50">
+          <Link to="/manage">
+            <Layers className="w-4 h-4" />
+            Manage QRs
+          </Link>
+        </Button>
       </div>
     </header>
   );
