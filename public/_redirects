@@ -1,1 +1,1 @@
-/* /.netlify/functions/resolve?id=:splat  200!
+/q/:id  /.netlify/functions/resolve?id=:id  200!
