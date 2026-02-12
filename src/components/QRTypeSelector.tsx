@@ -25,7 +25,7 @@ interface QRTypeSelectorProps {
   onChange: (settings: QRSettings) => void;
 }
 
-const RESOLVE_URL = 'https://vealgiofreeqr.netlify.app/.netlify/functions/resolve';
+const RESOLVE_URL = 'https://vealgiofreeqr.netlify.app';
 
 const generateRandomString = (length: number) => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
