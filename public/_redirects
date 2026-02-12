@@ -1,1 +1,2 @@
-/q/:id  /.netlify/functions/resolve?id=:id  200!
+/q  /.netlify/functions/resolve  200!
+/* /index.html                  200
