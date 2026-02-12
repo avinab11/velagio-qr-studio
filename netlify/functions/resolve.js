@@ -1,44 +1,48 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase using your Netlify Environment Variables
-const supabase = createClient(
-  process.env.VITE_SUPABASE_URL, 
-  process.env.VITE_SUPABASE_ANON_KEY
-);
-
-// Stage 3: The Quishing Defense
-const BLACKLIST = ['bit.ly', 'tinyurl.com', 'malware-site.net', 'phish-link.org'];
-
 export const handler = async (event) => {
-  const id = event.queryStringParameters.id;
+  // This log will finally appear in your Netlify dashboard
+  console.log("Function triggered for ID:", event.queryStringParameters?.id);
 
-  // 1. Fetch the real URL from your Supabase 'dynamic_codes' table
-  const { data, error } = await supabase
-    .from('dynamic_codes')
-    .select('url')
-    .eq('id', id)
-    .single();
+  const supabaseUrl = process.env.VITE_SUPABASE_URL;
+  const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
-  if (error || !data) {
-    return { statusCode: 404, body: 'QR Code not found' };
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("Missing Environment Variables");
+    return { statusCode: 500, body: "Internal Configuration Error" };
   }
 
-  // 2. Blacklist Check
-  const isMalicious = BLACKLIST.some(domain => data.url.toLowerCase().includes(domain));
-  
-  if (isMalicious) {
+  const supabase = createClient(supabaseUrl, supabaseKey);
+  const { id } = event.queryStringParameters || {};
+
+  try {
+    if (!id) {
+      return { statusCode: 400, body: "Missing QR ID" };
+    }
+
+    const { data, error } = await supabase
+      .from('qrs')
+      .select('destination_url')
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      console.error("Database error or missing ID:", error);
+      return { statusCode: 404, body: "Link not found" };
+    }
+
+    // Success! Redirect the user
     return {
       statusCode: 302,
-      headers: { Location: '/blocked-warning' }
+      headers: { 
+        'Location': data.destination_url,
+        'Cache-Control': 'no-cache'
+      },
+      body: ''
     };
+  } catch (err) {
+    console.error("Critical Error:", err.message);
+    return { statusCode: 500, body: "Internal Server Error" };
   }
-
-  // 3. Log the scan to your 'scans' table (Analytics)
-  await supabase.from('scans').insert([{ link_id: id }]);
-
-  // 4. Send the user to their destination
-  return {
-    statusCode: 302,
-    headers: { Location: data.url }
-  };
 };
+
