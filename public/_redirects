@@ -1,2 +1,1 @@
-/q/:id  /.netlify/functions/resolve?id=:id  200
-/* /index.html                         200
+/* /.netlify/functions/resolve?id=:splat  200!
