@@ -203,8 +203,21 @@ const HomePage: React.FC = () => {
                     </div>
                     <div className="flex justify-between text-xs font-medium">
                       <span className="text-muted-foreground">Content:</span>
-                      <span className="truncate max-w-[200px] font-mono">{settings.content || 'None'}</span>
+                      <span className="truncate max-w-[200px] font-mono">
+                        {settings.isDynamic ? 'Redirect Link' : (settings.content || 'None')}
+                      </span>
                     </div>
+                    {settings.isDynamic && (
+                      <div className="flex justify-between text-xs font-medium">
+                        <span className="text-muted-foreground">Points to:</span>
+                        <span className="truncate max-w-[200px] font-mono text-primary italic">
+                          {settings.type === 'url' ? settings.url : 
+                           settings.type === 'phone' ? settings.phone :
+                           settings.type === 'wifi' ? settings.wifi?.ssid :
+                           settings.type === 'social' ? `@${settings.social?.username}` : 'None'}
+                        </span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-xs font-medium">
                       <span className="text-muted-foreground">Style:</span>
                       <span className="capitalize">{settings.pixelStyle}</span>
@@ -272,8 +285,21 @@ const HomePage: React.FC = () => {
                     </div>
                     <div className="flex justify-between text-xs font-medium">
                       <span className="text-muted-foreground">Content:</span>
-                      <span className="truncate max-w-[200px] font-mono">{settings.content || 'None'}</span>
+                      <span className="truncate max-w-[200px] font-mono">
+                        {settings.isDynamic ? 'Redirect Link' : (settings.content || 'None')}
+                      </span>
                     </div>
+                    {settings.isDynamic && (
+                      <div className="flex justify-between text-xs font-medium">
+                        <span className="text-muted-foreground">Points to:</span>
+                        <span className="truncate max-w-[200px] font-mono text-primary italic">
+                          {settings.type === 'url' ? settings.url : 
+                           settings.type === 'phone' ? settings.phone :
+                           settings.type === 'wifi' ? settings.wifi?.ssid :
+                           settings.type === 'social' ? `@${settings.social?.username}` : 'None'}
+                        </span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-xs font-medium">
                       <span className="text-muted-foreground">Style:</span>
                       <span className="capitalize">{settings.pixelStyle}</span>

@@ -37,24 +37,23 @@ const generateRandomString = (length: number) => {
 };
 
 const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) => {
-  const formatContent = (type: QRType, data: any): string => {
-    if (data.isDynamic && data.dynamicId) {
-      return `${RESOLVE_URL}?id=${data.dynamicId}`;
-    }
-
+  const getActualContent = (type: QRType, data: any): string => {
     switch (type) {
       case 'url':
         return data.url || '';
       case 'wifi':
         const { ssid, password, type: wifiType, hidden } = data.wifi || {};
-        return `WIFI:S:${ssid || ''};T:${wifiType || 'WPA'};P:${password || ''};H:${hidden ? 'true' : 'false'};;`;
+        if (!ssid) return '';
+        return `WIFI:S:${ssid};T:${wifiType || 'WPA'};P:${password || ''};H:${hidden ? 'true' : 'false'};;`;
       case 'phone':
-        return `tel:${data.phone || ''}`;
+        if (!data.phone) return '';
+        return `tel:${data.phone}`;
       case 'social':
         const { platform, username } = data.social || {};
-        if (platform === 'instagram') return `https://instagram.com/${username || ''}`;
-        if (platform === 'tiktok') return `https://tiktok.com/@${username || ''}`;
-        if (platform === 'youtube') return `https://youtube.com/@${username || ''}`;
+        if (!username) return '';
+        if (platform === 'instagram') return `https://instagram.com/${username}`;
+        if (platform === 'tiktok') return `https://tiktok.com/@${username}`;
+        if (platform === 'youtube') return `https://youtube.com/@${username}`;
         return '';
       case 'file':
         return data.url || '';
@@ -62,6 +61,45 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
         return '';
     }
   };
+
+  const formatContent = (type: QRType, data: any): string => {
+    if (data.isDynamic && data.dynamicId) {
+      return `${RESOLVE_URL}?id=${data.dynamicId}`;
+    }
+    return getActualContent(type, data);
+  };
+
+  // Sync dynamic target to Supabase
+  useEffect(() => {
+    if (!settings.isDynamic || !settings.dynamicId) return;
+
+    const syncToSupabase = async () => {
+      const content = getActualContent(settings.type, settings);
+      if (!content) return;
+
+      try {
+        const { error } = await supabase
+          .from('dynamic_codes')
+          .update({ target_url: content })
+          .eq('id', settings.dynamicId);
+        
+        if (error) throw error;
+      } catch (err) {
+        console.error('Failed to sync dynamic QR:', err);
+      }
+    };
+
+    const timer = setTimeout(syncToSupabase, 500); // Debounce
+    return () => clearTimeout(timer);
+  }, [
+    settings.type,
+    settings.url,
+    settings.wifi,
+    settings.phone,
+    settings.social,
+    settings.isDynamic,
+    settings.dynamicId
+  ]);
 
   const handleTypeChange = (type: string) => {
     const newType = type as QRType;
@@ -82,7 +120,7 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
   const handleDynamicToggle = async (checked: boolean) => {
     if (checked) {
       // Check if user has content
-      const content = formatContent(settings.type, settings);
+      const content = getActualContent(settings.type, settings);
       if (!content) {
         toast.error('Please enter some content before making it dynamic.');
         return;
@@ -107,11 +145,15 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
         myCodes.push(token);
         localStorage.setItem('my_codes', JSON.stringify(myCodes));
 
-        updateSettings({ 
+        // Note: updateSettings will be called below which calls onChange
+        const nextSettings = { 
+          ...settings,
           isDynamic: true, 
           dynamicId: id, 
           editToken: token 
-        });
+        };
+        nextSettings.content = formatContent(nextSettings.type, nextSettings);
+        onChange(nextSettings);
         
         toast.success('Dynamic QR created! You can now edit the link later.');
       } catch (err) {
@@ -119,11 +161,14 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
         toast.error('Failed to create dynamic QR. Please try again.');
       }
     } else {
-      updateSettings({ 
+      const nextSettings = { 
+        ...settings,
         isDynamic: false, 
         dynamicId: undefined, 
         editToken: undefined 
-      });
+      };
+      nextSettings.content = formatContent(nextSettings.type, nextSettings);
+      onChange(nextSettings);
     }
   };
 
@@ -190,6 +235,15 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
           </TabsContent>
 
           <TabsContent value="wifi" className="space-y-4 m-0">
+            {settings.isDynamic && (
+              <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-start gap-2 mb-2">
+                <Zap className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                <p className="text-[10px] text-amber-600 font-medium">
+                  Dynamic mode for Wi-Fi will redirect users to a page showing the Wi-Fi details instead of connecting automatically. 
+                  Use Static mode for automatic connection.
+                </p>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-3">
                 <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Network Name (SSID)</Label>
