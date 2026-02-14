@@ -140,10 +140,22 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
 
         if (error) throw error;
 
-        // Save to localStorage
+        // Save to localStorage (both legacy format and new format)
         const myCodes = JSON.parse(localStorage.getItem('my_codes') || '[]');
         myCodes.push(token);
         localStorage.setItem('my_codes', JSON.stringify(myCodes));
+
+        // Also save to the new structured format for ManagePage
+        const STORAGE_KEY = 'velagio_dynamic_qrs';
+        const existingEntries = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        existingEntries.push({
+          id,
+          targetUrl: content,
+          scanCount: 0,
+          createdAt: new Date().toISOString(),
+          editToken: token,
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(existingEntries));
 
         // Note: updateSettings will be called below which calls onChange
         const nextSettings = { 

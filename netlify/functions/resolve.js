@@ -28,12 +28,15 @@ export const handler = async (event) => {
       return { statusCode: 404, body: "Link not found" };
     }
 
-    // Redirect the user to the destination found in your table
+    const target = data.target_url;
+
+    // For tel: and WIFI: URIs, we still use a 302 redirect with Location header.
+    // Browsers/phones handle these natively (open dialer, connect to wifi).
     return {
       statusCode: 302,
       headers: { 
-        'Location': data.target_url,
-        'Cache-Control': 'no-cache'
+        'Location': target,
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
       },
       body: ''
     };

@@ -73,7 +73,19 @@ async function handler(req: Request): Promise<Response> {
     // Wait for critical logs if necessary, but 301 is fast
     await Promise.allSettled([logPromise, updatePromise]);
 
-    return Response.redirect(code.target_url, 301);
+    const target = code.target_url;
+
+    // For tel: and WIFI: URIs, Response.redirect() throws because they aren't
+    // valid HTTP URLs. We must build the redirect response manually.
+    // Also use 302 (temporary) so browsers don't cache the redirect.
+    return new Response(null, {
+      status: 302,
+      headers: {
+        ...corsHeaders,
+        'Location': target,
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+      },
+    });
   } catch (err) {
     console.error(err);
     return new Response("Internal Server Error", { status: 500 });

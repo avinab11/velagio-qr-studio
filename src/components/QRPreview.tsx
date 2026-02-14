@@ -47,6 +47,9 @@ function getQROptions(settings: QRSettings, size: number) {
 const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size = 256, id }, ref) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const qrCode = useRef<QRCodeStyling | null>(null);
+  // Keep a ref to the latest settings so export always uses current state
+  const latestSettings = useRef<QRSettings>(settings);
+  latestSettings.current = settings;
 
   // Create QR instance once
   useEffect(() => {
@@ -77,34 +80,50 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
 
   useImperativeHandle(ref, () => ({
     getCanvas: async () => {
-      if (!qrCode.current) return null;
-      
-      // If already a canvas, just return it
-      const existingCanvas = qrRef.current?.querySelector('canvas');
-      if (existingCanvas) return existingCanvas;
-
-      const blob = await qrCode.current.getRawData('png');
-      if (!blob) return null;
-      
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          ctx?.drawImage(img, 0, 0);
-          resolve(canvas);
-        };
-        img.src = URL.createObjectURL(blob);
+      // Create a fresh high-res (1024px) instance with the CURRENT settings snapshot
+      const exportQR = new QRCodeStyling({
+        ...getQROptions(latestSettings.current, 1024),
+        type: 'canvas' as const,
       });
+
+      // We must append it to a temporary DOM node so qr-code-styling renders
+      const tempDiv = document.createElement('div');
+      tempDiv.style.position = 'fixed';
+      tempDiv.style.left = '-9999px';
+      document.body.appendChild(tempDiv);
+      exportQR.append(tempDiv);
+
+      // Give it a moment to render the canvas
+      await new Promise((r) => setTimeout(r, 150));
+
+      const canvas = tempDiv.querySelector('canvas') as HTMLCanvasElement | null;
+      if (canvas) {
+        // Detach so we can return it without losing it
+        canvas.remove();
+      }
+      document.body.removeChild(tempDiv);
+      return canvas;
     },
     getSVG: () => {
       return qrRef.current?.querySelector('svg') || null;
     },
     download: async (extension: 'png' | 'svg', name: string) => {
-      if (!qrCode.current) return;
-      await qrCode.current.download({ name, extension });
+      // Build a fresh high-res instance so logo + settings are guaranteed current
+      const EXPORT_SIZE = 1024;
+      const exportQR = new QRCodeStyling({
+        ...getQROptions(latestSettings.current, EXPORT_SIZE),
+        type: extension === 'svg' ? 'svg' as const : 'canvas' as const,
+      });
+
+      const tempDiv = document.createElement('div');
+      tempDiv.style.position = 'fixed';
+      tempDiv.style.left = '-9999px';
+      document.body.appendChild(tempDiv);
+      exportQR.append(tempDiv);
+      await new Promise((r) => setTimeout(r, 150));
+
+      await exportQR.download({ name, extension });
+      document.body.removeChild(tempDiv);
     }
   }));
 
