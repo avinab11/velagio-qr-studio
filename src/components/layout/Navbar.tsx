@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, ShieldCheck, Zap } from 'lucide-react';
+import { Layers, ShieldCheck, Zap, Settings2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -15,6 +15,13 @@ const Navbar: React.FC = () => {
           <h1 className="text-xl font-bold tracking-tight">Velagio QR Studio</h1>
         </div>
       </Link>
+
+      {/* Mobile: Manage QRs link */}
+      <Button asChild variant="ghost" size="icon" className="md:hidden h-9 w-9 rounded-full border border-border/40 hover:bg-muted/50">
+        <Link to="/manage" aria-label="Manage QRs">
+          <Settings2 className="w-4 h-4" />
+        </Link>
+      </Button>
 
       <div className="hidden md:flex items-center gap-6">
         <div className="flex items-center gap-4">

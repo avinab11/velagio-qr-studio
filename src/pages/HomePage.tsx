@@ -101,11 +101,6 @@ const HomePage: React.FC = () => {
   return (
     <>
       <main className="flex-1 max-w-[1400px] mx-auto w-full px-6 md:px-12 py-8">
-        {/* Ad Slot Placeholder */}
-        <div className="w-full h-[90px] mb-12 bg-muted/20 border border-border/40 rounded-2xl flex items-center justify-center text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/40">
-          Advertisement Slot
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-12 items-start">
           
           {/* Left Column: Input & Mode */}
@@ -114,7 +109,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="space-y-2">
                   <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Generate Your QR Codes</h1>
-                  <p className="text-[17px] md:text-lg text-muted-foreground font-light">Create 100% free, unlimited QR codes for any use. No sign-ups</p>
+                  <p className="text-[17px] md:text-lg text-muted-foreground font-light">Create 100% free, unlimited dynamic & static QR codes for any use. No sign-ups.</p>
                 </div>
                 
                 <Tabs value={mode} onValueChange={(v) => setMode(v as AppMode)} className="w-auto">

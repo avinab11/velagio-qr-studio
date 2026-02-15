@@ -110,9 +110,10 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
     download: async (extension: 'png' | 'svg', name: string) => {
       // Build a fresh high-res instance so logo + settings are guaranteed current
       const EXPORT_SIZE = 1024;
+      const isSvg = extension === 'svg';
       const exportQR = new QRCodeStyling({
         ...getQROptions(latestSettings.current, EXPORT_SIZE),
-        type: extension === 'svg' ? 'svg' as const : 'canvas' as const,
+        type: isSvg ? 'svg' as const : 'canvas' as const,
       });
 
       const tempDiv = document.createElement('div');
@@ -120,9 +121,58 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
       tempDiv.style.left = '-9999px';
       document.body.appendChild(tempDiv);
       exportQR.append(tempDiv);
-      await new Promise((r) => setTimeout(r, 150));
+      await new Promise((r) => setTimeout(r, 200));
 
-      await exportQR.download({ name, extension });
+      // On mobile browsers, qr-code-styling's download() can fail silently.
+      // Use a manual Blob-based download as a robust fallback.
+      try {
+        if (isSvg) {
+          const svgEl = tempDiv.querySelector('svg');
+          if (svgEl) {
+            const svgData = new XMLSerializer().serializeToString(svgEl);
+            const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name}.svg`;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            // Small delay before cleanup for mobile Safari
+            setTimeout(() => {
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            }, 100);
+          } else {
+            // Fallback to library download
+            await exportQR.download({ name, extension });
+          }
+        } else {
+          const canvas = tempDiv.querySelector('canvas') as HTMLCanvasElement | null;
+          if (canvas) {
+            canvas.toBlob((blob) => {
+              if (!blob) return;
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `${name}.png`;
+              a.style.display = 'none';
+              document.body.appendChild(a);
+              a.click();
+              setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              }, 100);
+            }, 'image/png');
+          } else {
+            await exportQR.download({ name, extension });
+          }
+        }
+      } catch {
+        // Ultimate fallback
+        await exportQR.download({ name, extension });
+      }
+
       document.body.removeChild(tempDiv);
     }
   }));

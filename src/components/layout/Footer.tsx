@@ -13,10 +13,10 @@ const Footer: React.FC = () => {
               In an era of subscription-locked tools and tracking pixels, Lumina (by Velagio) stands for the original promise of the web: accessibility, privacy, and permanence.
             </p>
             <p>
-              Our QR codes are static, meaning the data is encoded directly into the pixels. They never expire, they don't redirect through middle-man servers, and they work perfectly offline.
+              Enjoy 100% free, unlimited dynamic & static QR code generation. No subscription. No sign-ups. Totally free. Our codes never expire and are built for designers and businesses who need quality without limits.
             </p>
             <p>
-              Designed for professional print marketing, from luxury business cards to enterprise-scale packaging, Lumina ensures your digital-to-physical connection remains unbreakable and beautifully crafted.
+              Whether you're printing luxury business cards or scaling enterprise packaging, Velagio gives you dynamic QR codes you can update anytime, plus static codes that work perfectly offline—all without paying a cent.
             </p>
           </div>
         </div>

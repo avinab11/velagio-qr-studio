@@ -23,6 +23,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
+import { supabase } from '@/lib/supabase';
 
 /** Local QR entry stored in localStorage */
 interface LocalQREntry {
@@ -70,7 +71,7 @@ const ManagePage: React.FC = () => {
     const syncData = params.get('sync');
     if (syncData) {
       try {
-        const imported = JSON.parse(atob(syncData));
+        const imported = JSON.parse(decodeURIComponent(escape(atob(syncData))));
         if (Array.isArray(imported)) {
           const current = loadLocalEntries();
           const existingIds = new Set(current.map((e) => e.id));
@@ -115,17 +116,30 @@ const ManagePage: React.FC = () => {
     setEditValue(entry.targetUrl);
   };
 
-  const handleSaveEdit = (id: string) => {
+  const handleSaveEdit = async (id: string) => {
     if (!editValue.trim()) {
       toast.error('URL cannot be empty');
       return;
     }
+    const trimmed = editValue.trim();
     const next = entries.map((e) =>
-      e.id === id ? { ...e, targetUrl: editValue.trim() } : e
+      e.id === id ? { ...e, targetUrl: trimmed } : e
     );
     persist(next);
     setEditingId(null);
-    toast.success('Destination URL updated!');
+
+    // Also update Supabase so the dynamic redirect actually changes
+    try {
+      const { error } = await supabase
+        .from('dynamic_codes')
+        .update({ target_url: trimmed })
+        .eq('id', id);
+      if (error) throw error;
+      toast.success('Destination URL updated!');
+    } catch (err) {
+      console.error('Supabase update failed:', err);
+      toast.warning('Local update saved, but cloud sync failed. The QR redirect may not reflect the change yet.');
+    }
   };
 
   const handleCancelEdit = () => {
@@ -175,7 +189,27 @@ const ManagePage: React.FC = () => {
   };
 
   const generateSyncQr = () => {
-    setSyncQrData(btoa(JSON.stringify(entries)));
+    try {
+      // Only sync essential fields to keep payload small
+      const minimal = entries.map(e => ({
+        id: e.id,
+        targetUrl: e.targetUrl,
+        scanCount: e.scanCount,
+        createdAt: e.createdAt,
+        editToken: e.editToken,
+      }));
+      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(minimal))));
+      const syncUrl = `${window.location.origin}/manage?sync=${encoded}`;
+      
+      // QR codes have a data limit (~4296 alphanumeric chars). If too large, warn user.
+      if (syncUrl.length > 3000) {
+        toast.error('Too many QR codes to sync via QR. Use Export/Import backup instead.');
+        return;
+      }
+      setSyncQrData(encoded);
+    } catch {
+      toast.error('Failed to generate sync code. Try Export/Import backup instead.');
+    }
   };
 
   return (
