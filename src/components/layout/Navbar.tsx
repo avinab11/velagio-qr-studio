@@ -12,14 +12,15 @@ const Navbar: React.FC = () => {
           <Layers className="text-white dark:text-black w-6 h-6" />
         </div>
         <div>
-          <h1 className="text-xl font-bold tracking-tight">Velagio QR Studio</h1>
+          <h1 className="text-base md:text-xl font-bold tracking-tight">Velagio QR Studio</h1>
         </div>
       </Link>
 
       {/* Mobile: Manage QRs link */}
-      <Button asChild variant="ghost" size="icon" className="md:hidden h-9 w-9 rounded-full border border-border/40 hover:bg-muted/50">
-        <Link to="/manage" aria-label="Manage QRs">
-          <Settings2 className="w-4 h-4" />
+      <Button asChild variant="ghost" className="md:hidden h-8 px-3 rounded-full border border-border/40 hover:bg-muted/50 gap-1.5 text-xs font-semibold">
+        <Link to="/manage">
+          <Settings2 className="w-3.5 h-3.5" />
+          Manage QRs
         </Link>
       </Button>
 

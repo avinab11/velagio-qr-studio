@@ -89,9 +89,46 @@ const ManagePage: React.FC = () => {
     // Migrate from old my_codes format → new velagio_dynamic_qrs if needed
     migrateOldEntries();
 
-    setEntries(loadLocalEntries());
+    const localEntries = loadLocalEntries();
+    setEntries(localEntries);
     setLoading(false);
+
+    // Fetch real scan counts from Supabase for all entries
+    if (localEntries.length > 0) {
+      fetchScanCounts(localEntries);
+    }
   }, [location.search]);
+
+  /** Fetch real scan_count from Supabase and update local entries */
+  const fetchScanCounts = async (localEntries: LocalQREntry[]) => {
+    try {
+      const ids = localEntries.map((e) => e.id);
+      const { data, error } = await supabase
+        .from('dynamic_codes')
+        .select('id, scan_count')
+        .in('id', ids);
+      
+      if (error || !data) return;
+
+      const scanMap = new Map(data.map((row: { id: string; scan_count: number }) => [row.id, row.scan_count]));
+      let changed = false;
+      const updated = localEntries.map((e) => {
+        const dbCount = scanMap.get(e.id);
+        if (dbCount !== undefined && dbCount !== e.scanCount) {
+          changed = true;
+          return { ...e, scanCount: dbCount };
+        }
+        return e;
+      });
+
+      if (changed) {
+        setEntries(updated);
+        saveLocalEntries(updated);
+      }
+    } catch (err) {
+      console.error('Failed to fetch scan counts:', err);
+    }
+  };
 
   /** Migrate legacy my_codes tokens to new format (best-effort) */
   const migrateOldEntries = () => {
@@ -190,20 +227,29 @@ const ManagePage: React.FC = () => {
 
   const generateSyncQr = () => {
     try {
-      // Only sync essential fields to keep payload small
+      // Only sync essential fields to keep payload small — strip scanCount to save bytes
       const minimal = entries.map(e => ({
         id: e.id,
         targetUrl: e.targetUrl,
-        scanCount: e.scanCount,
+        scanCount: 0,
         createdAt: e.createdAt,
         editToken: e.editToken,
       }));
       const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(minimal))));
       const syncUrl = `${window.location.origin}/manage?sync=${encoded}`;
       
-      // QR codes have a data limit (~4296 alphanumeric chars). If too large, warn user.
+      // QR codes have a data limit (~4296 alphanumeric chars). If too large, chunk.
       if (syncUrl.length > 3000) {
-        toast.error('Too many QR codes to sync via QR. Use Export/Import backup instead.');
+        // Try progressively smaller subsets until it fits
+        const maxEntries = Math.floor((3000 * entries.length) / syncUrl.length);
+        if (maxEntries < 1) {
+          toast.error('Too many QR codes to sync via QR. Use Export/Import backup instead.');
+          return;
+        }
+        const chunked = minimal.slice(0, maxEntries);
+        const chunkedEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(chunked))));
+        setSyncQrData(chunkedEncoded);
+        toast.info(`Syncing ${maxEntries} of ${entries.length} codes. Use Export/Import for all.`);
         return;
       }
       setSyncQrData(encoded);
@@ -287,7 +333,7 @@ const ManagePage: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6">
-          {entries.map(entry => (
+          {[...entries].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map(entry => (
             <motion.div 
               key={entry.id}
               layout
