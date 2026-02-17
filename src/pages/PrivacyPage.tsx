@@ -15,14 +15,14 @@ const PrivacyPage: React.FC = () => {
         <section>
           <h2 className="text-xl font-bold text-foreground mb-4">1. Data Collection & Privacy</h2>
           <p>
-            At Velagio QR Studio, we offer 100% free, unlimited dynamic and static QR code generation. We believe in absolute privacy: no subscriptions, no sign-ups, and privacy guaranteed. We do not collect, store, or transmit any personal data you enter into our generator. All static QR code generation happens locally within your browser using JavaScript.
+            At Velagio QR Studio, we offer 100% free, unlimited dynamic and static QR code generation. We believe in absolute privacy: no subscriptions, no sign-ups, and privacy guaranteed. While static QR code generation happens locally within your browser, dynamic QR codes utilize our secure infrastructure to manage redirections and analytics, ensuring your data is handled with the highest security standards.
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-bold text-foreground mb-4">2. Cookies</h2>
           <p>
-            We use only essential session cookies to ensure the application functions correctly. We do not use tracking cookies or third-party analytics that monitor your behavior across the web.
+            We use essential cookies to manage your sessions and enable features like dynamic QR code management without requiring a traditional signup or account. This allows you to maintain control over your codes while keeping your personal information private. We do not use tracking cookies or third-party analytics that monitor your behavior across the web for advertising purposes.
           </p>
         </section>
 
@@ -36,7 +36,7 @@ const PrivacyPage: React.FC = () => {
         <section>
           <h2 className="text-xl font-bold text-foreground mb-4">4. Security</h2>
           <p>
-            Because all processing is client-side, your data never leaves your device. This architecture provides the highest level of security for your sensitive information and URLs.
+            Static QR codes are processed entirely client-side, ensuring your data never leaves your device. For dynamic QR codes, we use secure, encrypted infrastructure to provide features like destination updates and tracking. This hybrid architecture provides both the convenience of advanced features and the highest level of security for your information.
           </p>
         </section>
 

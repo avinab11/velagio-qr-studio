@@ -235,7 +235,7 @@ const HomePage: React.FC = () => {
                     <h3 className="text-xl font-bold">Privacy Guaranteed</h3>
                   </div>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Velagio QR Studio processes all data locally in your browser. No signups, no data tracking, and no expirations. Your codes are yours forever.
+                    Velagio processes data locally in your browser, using secure infrastructure only when needed for dynamic updates. No signups. No tracking.
                   </p>
                 </div>
 
