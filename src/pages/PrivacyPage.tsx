@@ -13,9 +13,9 @@ const PrivacyPage: React.FC = () => {
       
       <div className="prose prose-slate dark:prose-invert max-w-none space-y-8 text-muted-foreground leading-relaxed">
         <section>
-          <h2 className="text-xl font-bold text-foreground mb-4">1. Data Collection</h2>
+          <h2 className="text-xl font-bold text-foreground mb-4">1. Data Collection & Privacy</h2>
           <p>
-            At Velagio QR Studio, we believe in absolute privacy. We do not collect, store, or transmit any personal data you enter into our generator. All QR code generation happens locally within your browser using JavaScript.
+            At Velagio QR Studio, we offer 100% free, unlimited dynamic and static QR code generation. We believe in absolute privacy: no subscriptions, no sign-ups, and privacy guaranteed. We do not collect, store, or transmit any personal data you enter into our generator. All static QR code generation happens locally within your browser using JavaScript.
           </p>
         </section>
 

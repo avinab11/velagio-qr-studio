@@ -196,7 +196,6 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold uppercase tracking-wider">Dynamic QR</h3>
-            <Badge variant="secondary" className="bg-primary/20 text-primary border-none text-[10px] font-bold">BETA</Badge>
           </div>
           <p className="text-[11px] text-muted-foreground">Allows you to change the destination URL after printing.</p>
         </div>

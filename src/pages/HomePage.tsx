@@ -126,14 +126,14 @@ const HomePage: React.FC = () => {
                 </Tabs>
               </div>
 
-              <div className="apple-card p-10 bg-card/40 backdrop-blur-none lg:backdrop-blur-sm">
-                <AnimatePresence mode="wait">
+              <div className="apple-card p-10 bg-card/40">
+                <AnimatePresence>
                   {mode === 'single' ? (
                     <motion.div
                       key="single"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       className="space-y-6"
                     >
                       <QRTypeSelector settings={settings} onChange={setSettings} />
@@ -164,9 +164,9 @@ const HomePage: React.FC = () => {
                   ) : (
                     <motion.div
                       key="bulk"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       className="space-y-8"
                     >
                       <BulkQRManager settings={settings} />

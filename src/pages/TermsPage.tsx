@@ -22,7 +22,7 @@ const TermsPage: React.FC = () => {
         <section>
           <h2 className="text-xl font-bold text-foreground mb-4">2. Use License</h2>
           <p>
-            We grant you a free license to generate and download QR codes for personal or commercial use. There are no limits on the number of codes you can create.
+            We grant you a free, unlimited license to generate and download dynamic and static QR codes for personal or commercial use. There are no subscriptions, no sign-ups required, and no limits on the number of codes you can create. 100% free forever.
           </p>
         </section>
 
