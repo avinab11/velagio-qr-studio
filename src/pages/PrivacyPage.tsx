@@ -15,7 +15,7 @@ const PrivacyPage: React.FC = () => {
         <section>
           <h2 className="text-xl font-bold text-foreground mb-4">1. Data Collection & Privacy</h2>
           <p>
-            At Velagio QR Studio, we offer 100% free, unlimited dynamic and static QR code generation. We believe in absolute privacy: no subscriptions, no sign-ups, and privacy guaranteed. While static QR code generation happens locally within your browser, dynamic QR codes utilize our secure infrastructure to manage redirections and analytics, ensuring your data is handled with the highest security standards.
+            At Velagio QR Studio, we offer 100% free, unlimited dynamic and static QR code generation. We believe in absolute privacy: no subscriptions, no sign-ups, and privacy guaranteed. While static QR code generation happens locally within your browser, dynamic QR codes utilize our secure Superbase infrastructure to manage redirections and analytics, ensuring your data is handled with the highest security standards.
           </p>
         </section>
 
