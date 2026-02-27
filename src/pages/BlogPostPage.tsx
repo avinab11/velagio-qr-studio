@@ -15,51 +15,51 @@ const POSTS = {
         <p>QR codes have quietly become one of the most powerful (and underrated) marketing tools for modern businesses. From restaurant menus and product packaging to digital payments and lead generation, QR codes bridge the gap between offline and online experiences instantly. With smartphones now scanning QR codes natively, there’s zero friction for customers—and massive upside for businesses.</p>
         <p>In this guide, you’ll learn how to use QR codes effectively for your business, practical use cases across industries, best practices, and common mistakes to avoid. Whether you’re a small business owner or scaling a brand, QR codes can help you increase engagement, conversions, and customer retention.</p>
         
-        <h3>Why QR Codes Matter for Businesses Today</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Why QR Codes Matter for Businesses Today</h2>
         <p>QR codes are no longer a novelty—they’re an expectation. Here’s why businesses are doubling down on them:</p>
-        <ul className="mb-8">
-          <li>Instant access: No typing URLs or searching online</li>
-          <li>Mobile-first: Designed for how customers already behave</li>
-          <li>Cost-effective: Free QR code generators make entry effortless</li>
-          <li>Versatile: One tool, dozens of applications</li>
+        <ul className="mb-8 list-disc pl-6 space-y-2">
+          <li><strong>Instant access:</strong> No typing URLs or searching online</li>
+          <li><strong>Mobile-first:</strong> Designed for how customers already behave</li>
+          <li><strong>Cost-effective:</strong> Free QR code generators make entry effortless</li>
+          <li><strong>Versatile:</strong> One tool, dozens of applications</li>
         </ul>
-        <p className="mb-10">According to recent marketing trends, QR code usage continues to rise year over year as consumers prefer fast, contactless interactions.</p>
+        <p className="mb-10 italic">According to recent marketing trends, QR code usage continues to rise year over year as consumers prefer fast, contactless interactions.</p>
 
-        <h3>1. Use QR Codes to Drive Website Traffic</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">1. Use QR Codes to Drive Website Traffic</h2>
         <p>One of the most common and effective uses of QR codes is directing users to your website or landing pages.</p>
-        <p>Best use cases:</p>
-        <ul className="mb-8">
+        <p className="font-semibold mb-3">Best use cases:</p>
+        <ul className="mb-8 list-disc pl-6 space-y-2">
           <li>Business cards</li>
           <li>Flyers and posters</li>
           <li>Product packaging</li>
           <li>Storefront windows</li>
         </ul>
-        <p className="mb-10">Instead of asking users to “visit our website,” a QR code lets them reach it in one scan. Pro tip: Link QR codes to dedicated landing pages optimized for mobile, not just your homepage.</p>
+        <p className="mb-10">Instead of asking users to “visit our website,” a QR code lets them reach it in one scan. <strong>Pro tip:</strong> Link QR codes to dedicated landing pages optimized for mobile, not just your homepage.</p>
 
-        <h3>2. Improve Customer Experience With Contactless Solutions</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">2. Improve Customer Experience With Contactless Solutions</h2>
         <p>QR codes dramatically improve customer convenience—especially in physical locations.</p>
-        <p className="mb-10">Examples: Restaurants using QR codes for digital menus, hotels sharing Wi‑Fi credentials, gyms providing workout plans, and events offering digital tickets or schedules. By reducing friction, QR codes enhance user satisfaction and speed up interactions.</p>
+        <p className="mb-10"><strong>Examples:</strong> Restaurants using QR codes for digital menus, hotels sharing Wi‑Fi credentials, gyms providing workout plans, and events offering digital tickets or schedules. By reducing friction, QR codes enhance user satisfaction and speed up interactions.</p>
 
-        <h3>3. Boost Marketing Campaigns and Promotions</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">3. Boost Marketing Campaigns and Promotions</h2>
         <p>QR codes are powerful conversion tools when paired with compelling offers.</p>
-        <p>Marketing ideas: Scan-to-discount codes, limited-time offers, giveaway entries, and email list sign-ups. You can place QR codes on posters, billboards, receipts, or even social media graphics.</p>
-        <p className="mb-10">Optimization tip: Always include a clear CTA like “Scan to get 20% off”.</p>
+        <p className="mb-6"><strong>Marketing ideas:</strong> Scan-to-discount codes, limited-time offers, giveaway entries, and email list sign-ups. You can place QR codes on posters, billboards, receipts, or even social media graphics.</p>
+        <p className="mb-10 font-medium">Optimization tip: Always include a clear CTA like “Scan to get 20% off”.</p>
 
-        <h3>4. Collect Leads and Customer Data</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">4. Collect Leads and Customer Data</h2>
         <p className="mb-10">QR codes can simplify lead generation by linking directly to forms. Use QR codes to capture email subscribers, collect feedback, run surveys, or book appointments. This works especially well at events, trade shows, and retail checkouts where customers are already engaged.</p>
 
-        <h3>5. Use QR Codes for Payments and Ordering</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">5. Use QR Codes for Payments and Ordering</h2>
         <p className="mb-10">Many businesses now use QR codes for seamless payments and ordering systems. Common applications include QR code payments, scan-to-order systems, and subscription sign-ups. This reduces wait times, lowers staffing pressure, and improves overall efficiency.</p>
 
-        <h3>6. Enhance Product Packaging and Instructions</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">6. Enhance Product Packaging and Instructions</h2>
         <p className="mb-10">QR codes allow you to add unlimited digital content to physical products. Smart packaging ideas include instructional videos, product manuals, warranty registration, and authenticity verification. Instead of cluttering packaging with text, QR codes keep designs clean while offering deeper value.</p>
 
-        <h3>7. Track Performance and Optimize Campaigns</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">7. Track Performance and Optimize Campaigns</h2>
         <p className="mb-10">If you’re using dynamic or trackable QR codes, you can gain insights into customer behavior. Track metrics like number of scans, time and location of scans, and device type. These insights help you refine campaigns and double down on what works.</p>
 
-        <h3>Best Practices for Using QR Codes Effectively</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Best Practices for Using QR Codes Effectively</h2>
         <p>To get real results, follow these best practices:</p>
-        <ul className="mb-8">
+        <ul className="mb-8 list-disc pl-6 space-y-2">
           <li>Use high contrast for easy scanning</li>
           <li>Choose the right size (especially for print)</li>
           <li>Test before publishing</li>
@@ -67,10 +67,10 @@ const POSTS = {
           <li>Avoid cluttered designs</li>
         </ul>
 
-        <h3>Common QR Code Mistakes to Avoid</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Common QR Code Mistakes to Avoid</h2>
         <p className="mb-10">Avoid linking to non-mobile-friendly pages, placing codes too far away, using broken or expired links, or having no explanation of what the scan does. Always scan your QR code as if you’re the customer.</p>
 
-        <h3>Conclusion</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Conclusion</h2>
         <p>QR codes are one of the simplest yet most powerful tools businesses can use to connect with customers instantly. When used strategically, they increase engagement, streamline operations, and improve customer experience across every touchpoint.</p>
       </>
     )
@@ -84,31 +84,31 @@ const POSTS = {
       <>
         <p>QR codes have evolved far beyond simple black-and-white squares. What started as a basic tool for sharing information has become a core part of digital marketing, payments, customer experience, and automation. As we move deeper into 2026, QR codes are not fading away—instead, they’re becoming smarter, more integrated, and more essential for businesses of all sizes.</p>
         
-        <h3>QR Codes Are Becoming a Standard, Not a Trend</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">QR Codes Are Becoming a Standard, Not a Trend</h2>
         <p className="mb-10">In 2026, QR codes are no longer viewed as a temporary solution or a pandemic-era tool. They are now a standard digital bridge between offline and online experiences. Smartphone cameras support instant scanning without apps, consumers are familiar with the behavior, and businesses expect QR interactions to “just work.”</p>
 
-        <h3>Deeper Integration With Mobile Ecosystems</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Deeper Integration With Mobile Ecosystems</h2>
         <p className="mb-10">One of the biggest shifts in 2026 is how deeply QR codes are integrated into mobile ecosystems. This means faster scan-to-action experiences, direct integration with wallets, and reduced loading times. QR codes are becoming a native extension of smartphones.</p>
 
-        <h3>Smarter QR Codes With Dynamic Content</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Smarter QR Codes With Dynamic Content</h2>
         <p className="mb-10">Static QR codes still have their place, but the future belongs to dynamic QR codes. In 2026, businesses increasingly use QR codes that can change destinations without reprinting, show different content based on time or location, and support A/B testing for campaigns.</p>
 
-        <h3>QR Codes Powering Omnichannel Marketing</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">QR Codes Powering Omnichannel Marketing</h2>
         <p className="mb-10">QR codes are becoming a central pillar of omnichannel marketing strategies. Examples include print ads connected to digital funnels and product packaging linked to post-purchase experiences. QR codes help businesses create connected customer journeys across platforms.</p>
 
-        <h3>Increased Use in Payments and Digital Identity</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Increased Use in Payments and Digital Identity</h2>
         <p className="mb-10">By 2026, QR-based payments are mainstream. Beyond payments, QR codes are also being used for event check-ins, digital tickets, and secure logins. This positions QR codes as a lightweight alternative to complex apps.</p>
 
-        <h3>Personalization Through QR Code Experiences</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Personalization Through QR Code Experiences</h2>
         <p className="mb-10">Personalization is shaping the future of QR codes. Businesses are using them to deliver personalized offers, localized content, and language-specific pages. When paired with analytics, brands can understand customer intent and tailor experiences without invasive tracking.</p>
 
-        <h3>Design-First and Branded QR Codes</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Design-First and Branded QR Codes</h2>
         <p className="mb-10">In 2026, aesthetics matter more than ever. Modern QR codes are custom-colored, logo-embedded, and brand-aligned. Well-designed QR codes increase trust and scan rates, especially in competitive marketing environments.</p>
 
-        <h3>Stronger Focus on Privacy and Trust</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Stronger Focus on Privacy and Trust</h2>
         <p className="mb-10">The future of QR codes includes clear scan intent messaging and secure, verified destinations. Businesses that respect user trust will see higher engagement and long-term loyalty.</p>
 
-        <h3>Conclusion</h3>
+        <h2 className="text-xl md:text-2xl font-bold mt-10 mb-4">Conclusion</h2>
         <p>The future of QR codes in 2026 is defined by integration, intelligence, and experience. Businesses that embrace QR codes now—and use them strategically—will be better positioned to engage customers and grow in a mobile-first future.</p>
       </>
     )
