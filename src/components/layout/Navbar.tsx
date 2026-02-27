@@ -7,7 +7,11 @@ import { Link } from 'react-router-dom';
 const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 glass border-b border-border/40 py-4 px-6 md:px-12 flex justify-between items-center">
-      <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+      <Link 
+        to="/" 
+        className="flex items-center gap-3 hover:opacity-80 transition-opacity active:scale-95 touch-none"
+        style={{ WebkitTapHighlightColor: 'transparent' }}
+      >
         <div className="w-10 h-10 bg-black dark:bg-white rounded-xl flex items-center justify-center shadow-lg">
           <Layers className="text-white dark:text-black w-6 h-6" />
         </div>

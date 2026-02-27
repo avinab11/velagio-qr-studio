@@ -5,6 +5,14 @@ import { Button } from '@/components/ui/button';
 const BlogPage: React.FC = () => {
   const posts = [
     {
+      title: "Why You Should Stop Paying for Dynamic QR Codes",
+      slug: "stop-paying-for-dynamic-qr-codes",
+      excerpt: "In the early days, QR codes were simple, permanent, and free. Today, a new subscription industry has formed around 'Redirect Ransoms'. Learn how to take back control.",
+      date: "Feb 27, 2026",
+      author: "QR Specialist",
+      category: "Guide"
+    },
+    {
       title: "How to Use QR Codes Effectively for Your Business",
       slug: "how-to-use-qr-codes-for-business",
       excerpt: "QR codes have become powerful marketing tools. Learn how to bridge the gap between offline and online experiences instantly with zero friction for customers.",
@@ -19,14 +27,6 @@ const BlogPage: React.FC = () => {
       date: "Feb 10, 2026",
       author: "Design Team",
       category: "Trends"
-    },
-    {
-      title: "Why Static QR Codes Are Better for Print",
-      slug: "why-static-qr-codes-are-better-for-print",
-      excerpt: "Static QR codes are the gold standard for long-term print materials. Discover why permanence, reliability, and cost-effectiveness make them the superior choice.",
-      date: "Feb 08, 2026",
-      author: "Print Specialist",
-      category: "Tutorial"
     }
   ];
 
