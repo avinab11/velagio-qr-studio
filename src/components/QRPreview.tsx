@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle, forwardRef, useEffect } from 'react';
+import React, { useRef, useImperativeHandle, forwardRef, useEffect, useMemo } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 import { QRSettings } from '@/types/qr';
 
@@ -14,6 +14,27 @@ export interface QRPreviewHandle {
   download: (format: 'png' | 'svg', filename: string) => Promise<void>;
 }
 
+function getDotsType(pixelStyle: string, roundness: number): 'rounded' | 'dots' | 'classy' | 'classy-rounded' | 'square' | 'extra-rounded' {
+  if (pixelStyle === 'dots') {
+    if (roundness > 35) return 'dots';
+    return 'rounded';
+  }
+  if (roundness > 40) return 'extra-rounded';
+  if (roundness > 25) return 'classy-rounded';
+  if (roundness > 12) return 'classy';
+  return 'square';
+}
+
+function getCornerSquareType(roundness: number): 'extra-rounded' | 'dot' | 'square' {
+  if (roundness > 35) return 'dot';
+  if (roundness > 8) return 'extra-rounded';
+  return 'square';
+}
+
+function getCornerDotType(roundness: number): 'dot' | 'square' {
+  return roundness > 18 ? 'dot' : 'square';
+}
+
 function getQROptions(settings: QRSettings, size: number) {
   return {
     width: size,
@@ -23,18 +44,18 @@ function getQROptions(settings: QRSettings, size: number) {
     image: settings.logo,
     dotsOptions: {
       color: settings.foreground,
-      type: (settings.pixelStyle === 'dots' ? 'rounded' : 'square') as 'rounded' | 'square',
+      type: getDotsType(settings.pixelStyle, settings.roundness),
     },
     backgroundOptions: {
       color: settings.background,
     },
     cornersSquareOptions: {
       color: settings.foreground,
-      type: (settings.roundness > 40 ? 'dot' : (settings.roundness > 10 ? 'extra-rounded' : 'square')) as 'extra-rounded' | 'dot' | 'square',
+      type: getCornerSquareType(settings.roundness),
     },
     cornersDotOptions: {
       color: settings.foreground,
-      type: (settings.roundness > 25 ? 'dot' : 'square') as 'dot' | 'square',
+      type: getCornerDotType(settings.roundness),
     },
     imageOptions: {
       crossOrigin: 'anonymous' as const,
@@ -64,19 +85,47 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update QR in real-time when settings change (no teardown/recreate)
+  // Derive a stable key that only changes when the corner type thresholds cross,
+  // the pixelStyle changes, or the logo changes. Color and roundness number changes
+  // are handled by direct SVG DOM manipulation below to avoid flicker.
+  const structuralKey = useMemo(() => {
+    return [
+      settings.pixelStyle,
+      getDotsType(settings.pixelStyle, settings.roundness),
+      getCornerSquareType(settings.roundness),
+      getCornerDotType(settings.roundness),
+      settings.logo ?? '',
+      settings.content,
+    ].join('|');
+  }, [settings.pixelStyle, settings.roundness, settings.logo, settings.content]);
+
+  // Full QR rebuild only when structural properties change (style, content, logo, corner type thresholds)
   useEffect(() => {
     if (!qrCode.current) return;
-    
-    // Increase debounce slightly to 48ms (approx 3 frames) for better stability on lower-end devices
-    // during rapid property changes like the roundness slider.
-    const timeoutId = setTimeout(() => {
-      const options = getQROptions(settings, size);
-      qrCode.current?.update(options);
-    }, 48);
+    const options = getQROptions(settings, size);
+    qrCode.current.update(options);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [structuralKey, size]);
 
-    return () => clearTimeout(timeoutId);
-  }, [settings, size]);
+  // Fast color-only updates via direct SVG DOM manipulation (no flicker)
+  useEffect(() => {
+    if (!qrRef.current) return;
+    const svg = qrRef.current.querySelector('svg');
+    if (!svg) return;
+
+    // Update all dot/path fill colors directly
+    svg.querySelectorAll('rect, circle, path').forEach((el) => {
+      const fill = el.getAttribute('fill');
+      if (!fill || fill === 'none' || fill === 'transparent') return;
+      // Background rect is typically the first large rect
+      const tagName = el.tagName.toLowerCase();
+      if (tagName === 'rect' && el === svg.querySelector('rect')) {
+        el.setAttribute('fill', settings.background);
+      } else {
+        el.setAttribute('fill', settings.foreground);
+      }
+    });
+  }, [settings.foreground, settings.background]);
 
   useImperativeHandle(ref, () => ({
     getCanvas: async () => {

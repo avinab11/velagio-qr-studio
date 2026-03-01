@@ -44,9 +44,30 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
                 type="color"
                 value={settings.foreground}
                 onChange={(e) => onChange({ ...settings, foreground: e.target.value })}
-                className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent"
+                className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent shrink-0"
               />
-              <span className="text-sm font-mono">{settings.foreground.toUpperCase()}</span>
+              <Input
+                value={settings.foreground.toUpperCase()}
+                onChange={(e) => {
+                  let val = e.target.value;
+                  if (!val.startsWith('#')) val = '#' + val;
+                  if (/^#[0-9A-Fa-f]{0,6}$/.test(val)) {
+                    if (val.length === 7) {
+                      onChange({ ...settings, foreground: val });
+                    }
+                  }
+                }}
+                onBlur={(e) => {
+                  let val = e.target.value;
+                  if (!val.startsWith('#')) val = '#' + val;
+                  if (!/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                    e.target.value = settings.foreground.toUpperCase();
+                  }
+                }}
+                maxLength={7}
+                className="text-sm font-mono h-8 px-2 bg-transparent border-none shadow-none focus-visible:ring-0"
+                placeholder="#000000"
+              />
             </div>
           </div>
           <div className="space-y-2">
@@ -56,9 +77,30 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
                 type="color"
                 value={settings.background}
                 onChange={(e) => onChange({ ...settings, background: e.target.value })}
-                className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent"
+                className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent shrink-0"
               />
-              <span className="text-sm font-mono">{settings.background.toUpperCase()}</span>
+              <Input
+                value={settings.background.toUpperCase()}
+                onChange={(e) => {
+                  let val = e.target.value;
+                  if (!val.startsWith('#')) val = '#' + val;
+                  if (/^#[0-9A-Fa-f]{0,6}$/.test(val)) {
+                    if (val.length === 7) {
+                      onChange({ ...settings, background: val });
+                    }
+                  }
+                }}
+                onBlur={(e) => {
+                  let val = e.target.value;
+                  if (!val.startsWith('#')) val = '#' + val;
+                  if (!/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                    e.target.value = settings.background.toUpperCase();
+                  }
+                }}
+                maxLength={7}
+                className="text-sm font-mono h-8 px-2 bg-transparent border-none shadow-none focus-visible:ring-0"
+                placeholder="#FFFFFF"
+              />
             </div>
           </div>
         </div>
