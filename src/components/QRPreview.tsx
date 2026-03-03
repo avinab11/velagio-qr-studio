@@ -14,18 +14,6 @@ export interface QRPreviewHandle {
   download: (format: 'png' | 'svg', filename: string) => Promise<void>;
 }
 
-function getCornerType(roundness: number): 'square' | 'extra-rounded' | 'dot' {
-  if (roundness >= 40) return 'dot';
-  if (roundness >= 5) return 'extra-rounded';
-  return 'square';
-}
-
-function getDotType(pixelStyle: 'square' | 'dots', roundness: number): 'square' | 'dots' | 'rounded' {
-  if (pixelStyle === 'dots') return 'dots';
-  if (roundness >= 20) return 'rounded';
-  return 'square';
-}
-
 function getQROptions(settings: QRSettings, size: number) {
   return {
     width: size,
@@ -35,14 +23,14 @@ function getQROptions(settings: QRSettings, size: number) {
     image: settings.logo,
     dotsOptions: {
       color: settings.foreground,
-      type: getDotType(settings.pixelStyle, settings.roundness) as any,
+      type: (settings.pixelStyle === 'dots' ? 'rounded' : 'square') as 'rounded' | 'square',
     },
     backgroundOptions: {
       color: settings.background,
     },
     cornersSquareOptions: {
       color: settings.foreground,
-      type: getCornerType(settings.roundness),
+      type: (settings.roundness > 40 ? 'dot' : (settings.roundness > 10 ? 'extra-rounded' : 'square')) as 'extra-rounded' | 'dot' | 'square',
     },
     cornersDotOptions: {
       color: settings.foreground,
@@ -80,56 +68,15 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
   useEffect(() => {
     if (!qrCode.current) return;
     
-    // Only use update() for structural changes to avoid flickering on color/roundness tweaks
-    // Actually, color changes are fast but update() still flashes.
-    // For background color of the WRAPPER, it's already handled by inline style in render.
-    
+    // Increase debounce slightly to 48ms (approx 3 frames) for better stability on lower-end devices
+    // during rapid property changes like the roundness slider.
     const timeoutId = setTimeout(() => {
       const options = getQROptions(settings, size);
       qrCode.current?.update(options);
-    }, 16); // Lowered from 48ms to 16ms (1 frame) for more fluidity
+    }, 48);
 
     return () => clearTimeout(timeoutId);
-  }, [settings.content, settings.logo, settings.pixelStyle, settings.roundness, size]);
-
-  // Handle color updates separately if we want zero flicker, 
-  // but let's first try just reducing the debounce and checking if it's acceptable.
-  // Actually, the user explicitly asked to eliminate flickering.
-  // Direct SVG manipulation is the way.
-  
-  useEffect(() => {
-    if (!qrRef.current || !qrCode.current) return;
-    
-    // Update the instance state without a full re-render if possible? 
-    // The library doesn't expose a "silent" update.
-    // So we update the DOM directly for colors.
-    const svg = qrRef.current.querySelector('svg');
-    if (svg) {
-      const paths = svg.querySelectorAll('path');
-      paths.forEach(path => {
-        const fill = path.getAttribute('fill');
-        if (fill && fill !== 'none' && fill !== 'transparent') {
-          // If the fill was the old foreground, update it
-          // This is a bit heuristic but works for simple QRs
-          if (fill !== settings.background) {
-            path.setAttribute('fill', settings.foreground);
-          }
-        }
-      });
-      
-      const rects = svg.querySelectorAll('rect');
-      rects.forEach(rect => {
-        const fill = rect.getAttribute('fill');
-        if (fill && fill !== 'none') {
-          if (rect.getAttribute('width') === '100%' || (parseInt(rect.getAttribute('width') || '0') >= size)) {
-            rect.setAttribute('fill', settings.background);
-          } else {
-            rect.setAttribute('fill', settings.foreground);
-          }
-        }
-      });
-    }
-  }, [settings.foreground, settings.background]);
+  }, [settings, size]);
 
   useImperativeHandle(ref, () => ({
     getCanvas: async () => {
