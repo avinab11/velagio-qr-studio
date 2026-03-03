@@ -30,11 +30,11 @@ function getQROptions(settings: QRSettings, size: number) {
     },
     cornersSquareOptions: {
       color: settings.foreground,
-      type: (settings.roundness > 40 ? 'dot' : (settings.roundness > 10 ? 'extra-rounded' : 'square')) as 'extra-rounded' | 'dot' | 'square',
+      type: (settings.roundness > 35 ? 'dot' : (settings.roundness > 2 ? 'extra-rounded' : 'square')) as 'extra-rounded' | 'dot' | 'square',
     },
     cornersDotOptions: {
       color: settings.foreground,
-      type: (settings.roundness > 25 ? 'dot' : 'square') as 'dot' | 'square',
+      type: (settings.roundness > 20 ? 'dot' : (settings.roundness > 0 ? 'square' : 'square')) as 'dot' | 'square',
     },
     imageOptions: {
       crossOrigin: 'anonymous' as const,

@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="space-y-2">
                   <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight">Generate Your QR Codes</h1>
-                  <p className="text-[17px] md:text-lg text-muted-foreground font-light">Create 100% free, unlimited dynamic & static QR codes for any use. No sign-ups.</p>
+                  <p className="text-base md:text-[17px] text-muted-foreground font-light leading-relaxed">Create 100% free, unlimited dynamic & static QR codes. No sign-ups. No expirations.</p>
                 </div>
                 
                 <Tabs value={mode} onValueChange={(v) => setMode(v as AppMode)} className="w-auto">
