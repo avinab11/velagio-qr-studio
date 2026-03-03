@@ -46,7 +46,17 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
                 onChange={(e) => onChange({ ...settings, foreground: e.target.value })}
                 className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent"
               />
-              <span className="text-sm font-mono">{settings.foreground.toUpperCase()}</span>
+              <Input
+                value={settings.foreground.toUpperCase()}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (/^#[0-9A-F]{0,6}$/i.test(val)) {
+                    onChange({ ...settings, foreground: val });
+                  }
+                }}
+                className="h-8 px-2 font-mono text-xs border-none bg-transparent shadow-none focus-visible:ring-0"
+                maxLength={7}
+              />
             </div>
           </div>
           <div className="space-y-2">
@@ -58,7 +68,17 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
                 onChange={(e) => onChange({ ...settings, background: e.target.value })}
                 className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent"
               />
-              <span className="text-sm font-mono">{settings.background.toUpperCase()}</span>
+              <Input
+                value={settings.background.toUpperCase()}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (/^#[0-9A-F]{0,6}$/i.test(val)) {
+                    onChange({ ...settings, background: val });
+                  }
+                }}
+                className="h-8 px-2 font-mono text-xs border-none bg-transparent shadow-none focus-visible:ring-0"
+                maxLength={7}
+              />
             </div>
           </div>
         </div>
@@ -88,7 +108,7 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <Label className="text-xs font-medium">Corner Roundness</Label>
-            <span className="text-xs text-muted-foreground">{settings.roundness}%</span>
+            <span className="text-xs text-muted-foreground">{settings.roundness}</span>
           </div>
           <Slider
             value={[settings.roundness]}
