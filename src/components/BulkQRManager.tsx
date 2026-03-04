@@ -62,6 +62,7 @@ const BulkQRManager: React.FC<BulkQRManagerProps> = ({ settings }) => {
                 settings={{ ...settings, content: url }} 
                 size={140} 
                 id={`qr-bulk-${index}`}
+                renderType="canvas"
               />
               <p className="text-[10px] text-center text-muted-foreground truncate px-2 font-mono">{url}</p>
             </motion.div>

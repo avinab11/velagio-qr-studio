@@ -108,7 +108,6 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <Label className="text-xs font-medium">Corner Roundness</Label>
-            <span className="text-xs text-muted-foreground">{settings.roundness}</span>
           </div>
           <Slider
             value={[settings.roundness]}

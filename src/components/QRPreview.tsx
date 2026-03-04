@@ -6,6 +6,7 @@ interface QRPreviewProps {
   settings: QRSettings;
   size?: number;
   id?: string;
+  renderType?: 'svg' | 'canvas';
 }
 
 export interface QRPreviewHandle {
@@ -14,11 +15,11 @@ export interface QRPreviewHandle {
   download: (format: 'png' | 'svg', filename: string) => Promise<void>;
 }
 
-function getQROptions(settings: QRSettings, size: number) {
+function getQROptions(settings: QRSettings, size: number, renderType: 'svg' | 'canvas' = 'svg') {
   return {
     width: size,
     height: size,
-    type: 'svg' as const,
+    type: renderType,
     data: settings.content || ' ',
     image: settings.logo,
     dotsOptions: {
@@ -44,7 +45,7 @@ function getQROptions(settings: QRSettings, size: number) {
   };
 }
 
-const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size = 256, id }, ref) => {
+const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size = 256, id, renderType = 'svg' }, ref) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const qrCode = useRef<QRCodeStyling | null>(null);
   // Keep a ref to the latest settings so export always uses current state
@@ -53,7 +54,7 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
 
   // Create QR instance once
   useEffect(() => {
-    const options = getQROptions(settings, size);
+    const options = getQROptions(settings, size, renderType);
     qrCode.current = new QRCodeStyling(options);
 
     if (qrRef.current) {
@@ -68,21 +69,24 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
   useEffect(() => {
     if (!qrCode.current) return;
     
-    // Increase debounce slightly to 48ms (approx 3 frames) for better stability on lower-end devices
-    // during rapid property changes like the roundness slider.
+    // Only use update() for structural changes to avoid flickering on color/roundness tweaks
+    // Actually, color changes are fast but update() still flashes.
+    // For background color of the WRAPPER, it's already handled by inline style in render.
+    
     const timeoutId = setTimeout(() => {
-      const options = getQROptions(settings, size);
+      const options = getQROptions(settings, size, renderType);
       qrCode.current?.update(options);
-    }, 48);
+    }, 16); // Lowered from 48ms to 16ms (1 frame) for more fluidity
 
     return () => clearTimeout(timeoutId);
-  }, [settings, size]);
+  }, [settings.content, settings.logo, settings.pixelStyle, settings.roundness, size, renderType]);
 
+  // Handle color updates separately if we want zero flicker, 
   useImperativeHandle(ref, () => ({
     getCanvas: async () => {
       // Create a fresh high-res (1024px) instance with the CURRENT settings snapshot
       const exportQR = new QRCodeStyling({
-        ...getQROptions(latestSettings.current, 1024),
+        ...getQROptions(latestSettings.current, 1024, 'canvas'),
         type: 'canvas' as const,
       });
 
@@ -112,7 +116,7 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
       const EXPORT_SIZE = 1024;
       const isSvg = extension === 'svg';
       const exportQR = new QRCodeStyling({
-        ...getQROptions(latestSettings.current, EXPORT_SIZE),
+        ...getQROptions(latestSettings.current, EXPORT_SIZE, isSvg ? 'svg' : 'canvas'),
         type: isSvg ? 'svg' as const : 'canvas' as const,
       });
 
