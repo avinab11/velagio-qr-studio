@@ -79,7 +79,7 @@ const QRPreview = forwardRef<QRPreviewHandle, QRPreviewProps>(({ settings, size 
     }, 16); // Lowered from 48ms to 16ms (1 frame) for more fluidity
 
     return () => clearTimeout(timeoutId);
-  }, [settings.content, settings.logo, settings.pixelStyle, settings.roundness, size, renderType]);
+  }, [settings.content, settings.logo, settings.pixelStyle, settings.roundness, settings.foreground, settings.background, size, renderType]);
 
   // Handle color updates separately if we want zero flicker, 
   useImperativeHandle(ref, () => ({
