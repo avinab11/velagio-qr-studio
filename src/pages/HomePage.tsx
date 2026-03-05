@@ -15,7 +15,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import QRPreview, { QRPreviewHandle } from '@/components/QRPreview';
+import QRPreview, { QRPreviewHandle, getQROptions } from '@/components/QRPreview';
+import QRCodeStyling from 'qr-code-styling';
 import CustomizationStudio from '@/components/studio/CustomizationStudio';
 import QRTypeSelector from '@/components/QRTypeSelector';
 import BulkQRManager from '@/components/BulkQRManager';
@@ -66,11 +67,32 @@ const HomePage: React.FC = () => {
     }
   };
 
-  const handleBulkDownloadPromise = async (qrElements: NodeListOf<Element>) => {
-    const data = Array.from(qrElements).map((el, i) => ({
-      url: (el.closest('.space-y-2')?.querySelector('p')?.textContent || `code_${i}`),
-      canvas: el as HTMLCanvasElement
-    }));
+  const renderHighResCanvas = async (url: string): Promise<HTMLCanvasElement | null> => {
+    const hiResSettings = { ...settings, content: url };
+    const options = { ...getQROptions(hiResSettings, 1024, 'canvas'), type: 'canvas' as const };
+    const qr = new QRCodeStyling(options);
+
+    const tempDiv = document.createElement('div');
+    tempDiv.style.position = 'fixed';
+    tempDiv.style.left = '-9999px';
+    document.body.appendChild(tempDiv);
+    qr.append(tempDiv);
+
+    await new Promise((r) => setTimeout(r, 200));
+
+    const canvas = tempDiv.querySelector('canvas') as HTMLCanvasElement | null;
+    if (canvas) canvas.remove();
+    document.body.removeChild(tempDiv);
+    return canvas;
+  };
+
+  const handleBulkDownloadPromise = async (urls: string[]) => {
+    const data: { url: string; canvas: HTMLCanvasElement }[] = [];
+
+    for (const url of urls) {
+      const canvas = await renderHighResCanvas(url);
+      if (canvas) data.push({ url, canvas });
+    }
 
     await downloadBulkZIP(data, 'velagio-bulk-qrs');
     confetti({
@@ -82,14 +104,21 @@ const HomePage: React.FC = () => {
 
   const handleBulkDownload = async () => {
     try {
-      const qrElements = document.querySelectorAll('[id^="qr-bulk-"] canvas');
-      if (qrElements.length === 0) {
+      // Gather URLs from the bulk text area by reading DOM labels
+      const bulkLabels = document.querySelectorAll('[id^="qr-bulk-"]');
+      const urls: string[] = [];
+      bulkLabels.forEach((el) => {
+        const label = el.closest('.space-y-2')?.querySelector('p')?.textContent;
+        if (label) urls.push(label);
+      });
+
+      if (urls.length === 0) {
         toast.error('No QR codes to download. Please enter some URLs.');
         return;
       }
 
-      toast.promise(handleBulkDownloadPromise(qrElements), {
-        loading: 'Preparing your batch...',
+      toast.promise(handleBulkDownloadPromise(urls), {
+        loading: 'Rendering high-res QR codes...',
         success: 'Batch ZIP downloaded!',
         error: 'Batch export failed.',
       });

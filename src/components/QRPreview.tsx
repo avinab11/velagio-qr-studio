@@ -15,7 +15,7 @@ export interface QRPreviewHandle {
   download: (format: 'png' | 'svg', filename: string) => Promise<void>;
 }
 
-function getQROptions(settings: QRSettings, size: number, renderType: 'svg' | 'canvas' = 'svg') {
+export function getQROptions(settings: QRSettings, size: number, renderType: 'svg' | 'canvas' = 'svg') {
   return {
     width: size,
     height: size,

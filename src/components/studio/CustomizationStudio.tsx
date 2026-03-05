@@ -40,12 +40,18 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
           <div className="space-y-2">
             <Label className="text-xs font-medium">Foreground</Label>
             <div className="flex items-center gap-3 p-2 border rounded-xl bg-muted/30">
-              <input
-                type="color"
-                value={settings.foreground}
-                onChange={(e) => onChange({ ...settings, foreground: e.target.value })}
-                className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent"
-              />
+              <label className="relative w-10 h-10 flex-shrink-0 cursor-pointer">
+                <div
+                  className="w-10 h-10 rounded-lg border border-border/60 shadow-sm"
+                  style={{ backgroundColor: settings.foreground }}
+                />
+                <input
+                  type="color"
+                  value={settings.foreground}
+                  onChange={(e) => onChange({ ...settings, foreground: e.target.value })}
+                  className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                />
+              </label>
               <Input
                 value={settings.foreground.toUpperCase()}
                 onChange={(e) => {
@@ -62,12 +68,18 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
           <div className="space-y-2">
             <Label className="text-xs font-medium">Background</Label>
             <div className="flex items-center gap-3 p-2 border rounded-xl bg-muted/30">
-              <input
-                type="color"
-                value={settings.background}
-                onChange={(e) => onChange({ ...settings, background: e.target.value })}
-                className="w-10 h-10 rounded-lg cursor-pointer border-none bg-transparent"
-              />
+              <label className="relative w-10 h-10 flex-shrink-0 cursor-pointer">
+                <div
+                  className="w-10 h-10 rounded-lg border border-border/60 shadow-sm"
+                  style={{ backgroundColor: settings.background }}
+                />
+                <input
+                  type="color"
+                  value={settings.background}
+                  onChange={(e) => onChange({ ...settings, background: e.target.value })}
+                  className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                />
+              </label>
               <Input
                 value={settings.background.toUpperCase()}
                 onChange={(e) => {
