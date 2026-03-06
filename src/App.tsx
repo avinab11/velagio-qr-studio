@@ -9,6 +9,7 @@ import PrivacyPage from '@/pages/PrivacyPage';
 import TermsPage from '@/pages/TermsPage';
 import BlogPage from '@/pages/BlogPage';
 import BlogPostPage from '@/pages/BlogPostPage';
+import GoPage from '@/pages/GoPage';
 import { Toaster } from 'sonner';
 import { useEffect } from 'react';
 
@@ -27,22 +28,28 @@ const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-primary/20">
-        <Navbar />
-        
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/manage" element={<ManagePage />} />
-          <Route path="/blocked" element={<BlockedPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogPostPage />} />
-        </Routes>
+      <Routes>
+        {/* Standalone landing page — no Navbar/Footer */}
+        <Route path="/go" element={<GoPage />} />
 
-        <Footer />
-        <Toaster position="bottom-right" />
-      </div>
+        {/* Main site layout */}
+        <Route path="*" element={
+          <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-primary/20">
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/manage" element={<ManagePage />} />
+              <Route path="/blocked" element={<BlockedPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
+            </Routes>
+            <Footer />
+            <Toaster position="bottom-right" />
+          </div>
+        } />
+      </Routes>
     </Router>
   );
 };
