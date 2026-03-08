@@ -112,6 +112,15 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
     if (newType === 'social' && !newSettings.social) {
       newSettings.social = { platform: 'instagram', username: '' };
     }
+
+    // When switching QR type, always reset dynamic state so a new entry
+    // is created on the next download instead of overwriting the previous one.
+    if (settings.isDynamic && settings.dynamicId) {
+      newSettings.isDynamic = false;
+      newSettings.dynamicId = undefined;
+      newSettings.editToken = undefined;
+      toast.info('Dynamic mode reset — re-enable it for the new QR type.');
+    }
     
     newSettings.content = formatContent(newType, newSettings);
     onChange(newSettings);
