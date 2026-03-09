@@ -31,8 +31,6 @@ const App: React.FC = () => {
       <Routes>
         {/* Standalone landing page — no Navbar/Footer */}
         <Route path="/go" element={<GoPage />} />
-        <Route path="/scan" element={<GoPage />} />
-        <Route path="/scan/:id" element={<GoPage />} />
 
         {/* Main site layout */}
         <Route path="*" element={

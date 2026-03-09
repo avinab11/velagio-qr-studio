@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { Wifi, Phone, Loader2, ShieldCheck, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -35,8 +35,7 @@ type PageType = 'wifi' | 'phone' | 'loading' | 'error' | 'blocked';
 
 const GoPage: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const { id: pathId } = useParams();
-  const id = searchParams.get('id') || pathId;
+  const id = searchParams.get('id');
   const [pageType, setPageType] = useState<PageType>('loading');
   const [wifiInfo, setWifiInfo] = useState<WiFiInfo | null>(null);
   const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
@@ -263,7 +262,7 @@ const GoPage: React.FC = () => {
 
         {/* Footer */}
         <p className="text-center text-[10px] text-muted-foreground">
-          Powered by <a href="https://www.velagiofreeqr.com" className="text-primary font-medium hover:underline">Velagio QR Studio</a>
+          Powered by <a href="https://velagio-qr-studio-armx0fqk.sites.blink.new" className="text-primary font-medium hover:underline">Velagio QR Studio</a>
         </p>
       </div>
     </div>

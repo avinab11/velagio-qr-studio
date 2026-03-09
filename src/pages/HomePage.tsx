@@ -10,9 +10,7 @@ import {
   Heart,
   ExternalLink,
   Monitor,
-  LayoutGrid,
-  Eye,
-  X
+  LayoutGrid
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -35,7 +33,6 @@ const HomePage: React.FC = () => {
   const qrRef = useRef<QRPreviewHandle>(null);
   const showPreview = hasQRContent(settings);
   const [isDesktop, setIsDesktop] = useState(true);
-  const [showFloatingPreview, setShowFloatingPreview] = useState(false);
 
   useEffect(() => {
     const mql = window.matchMedia('(min-width: 1024px)');
@@ -214,6 +211,46 @@ const HomePage: React.FC = () => {
               </div>
             </section>
 
+            {/* Mobile Live Preview - shown above Privacy on small screens */}
+            {showPreview && !isDesktop && (
+              <section>
+                <div className="apple-card p-4 space-y-6 bg-card/80 backdrop-blur-none lg:backdrop-blur-sm overflow-hidden">
+                  <div className="flex justify-between items-center mb-2 px-2">
+                    <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Live Preview</h3>
+                    <Badge variant="secondary" className="rounded-full bg-green-500/10 text-green-600 border-none font-bold text-[10px]">REAL-TIME</Badge>
+                  </div>
+                  <QRPreview settings={settings} ref={qrRef} />
+                  <div className="space-y-3 pt-4 border-t border-border/40 px-2">
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-muted-foreground">Type:</span>
+                      <span className="capitalize">{settings.type}</span>
+                    </div>
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-muted-foreground">Content:</span>
+                      <span className="truncate max-w-[200px] font-mono">
+                        {settings.isDynamic ? 'Redirect Link' : (settings.content || 'None')}
+                      </span>
+                    </div>
+                    {settings.isDynamic && (
+                      <div className="flex justify-between text-xs font-medium">
+                        <span className="text-muted-foreground">Points to:</span>
+                        <span className="truncate max-w-[200px] font-mono text-primary italic">
+                          {settings.type === 'url' ? settings.url : 
+                           settings.type === 'phone' ? settings.phone :
+                           settings.type === 'wifi' ? settings.wifi?.ssid :
+                           settings.type === 'social' ? `@${settings.social?.username}` : 'None'}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-xs font-medium">
+                      <span className="text-muted-foreground">Style:</span>
+                      <span className="capitalize">{settings.pixelStyle}</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
+
             {/* Customization Grid */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="apple-card p-8 space-y-6">
@@ -305,67 +342,6 @@ const HomePage: React.FC = () => {
           )}
         </div>
       </main>
-
-      {/* Mobile Floating Live Preview */}
-      {showPreview && !isDesktop && (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4 pointer-events-none">
-          <AnimatePresence>
-            {showFloatingPreview && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="apple-card p-4 w-[280px] bg-card/95 backdrop-blur-md shadow-2xl pointer-events-auto border-primary/20 mb-2"
-              >
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-                    <Zap className="w-3 h-3 text-primary animate-pulse" />
-                    Live Preview
-                  </h3>
-                  <button 
-                    onClick={() => setShowFloatingPreview(false)}
-                    className="p-1 hover:bg-muted rounded-full transition-colors"
-                  >
-                    <X className="w-4 h-4 text-muted-foreground" />
-                  </button>
-                </div>
-                
-                <div className="flex justify-center mb-4 scale-90">
-                  <QRPreview settings={settings} size={180} />
-                </div>
-
-                <div className="space-y-2 pt-3 border-t border-border/40">
-                  <div className="flex justify-between text-[10px] font-medium">
-                    <span className="text-muted-foreground uppercase">Type:</span>
-                    <span className="capitalize">{settings.type}</span>
-                  </div>
-                  <div className="flex justify-between text-[10px] font-medium overflow-hidden">
-                    <span className="text-muted-foreground uppercase mr-2 shrink-0">Target:</span>
-                    <span className="truncate font-mono text-primary italic">
-                      {settings.isDynamic ? 'Dynamic Link' : (
-                        settings.type === 'url' ? settings.url :
-                        settings.type === 'phone' ? settings.phone :
-                        settings.type === 'wifi' ? settings.wifi?.ssid :
-                        'Custom Content'
-                      )}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setShowFloatingPreview(!showFloatingPreview)}
-            className={`pointer-events-auto w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ${
-              showFloatingPreview ? 'bg-black text-white' : 'bg-primary text-white'
-            }`}
-          >
-            {showFloatingPreview ? <X className="w-6 h-6" /> : <Eye className="w-6 h-6" />}
-          </motion.button>
-        </div>
-      )}
     </>
   );
 };

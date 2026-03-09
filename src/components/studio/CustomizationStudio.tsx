@@ -36,13 +36,13 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
           <Palette className="w-4 h-4 text-primary" />
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Colors</h3>
         </div>
-        <div className="grid grid-cols-2 gap-2 sm:gap-4">
-          <div className="space-y-1.5 min-w-0">
-            <Label className="text-[10px] sm:text-xs font-medium uppercase tracking-tight sm:tracking-wider">Foreground</Label>
-            <div className="flex items-center gap-1.5 sm:gap-3 p-1.5 sm:p-2 border rounded-xl bg-muted/30 overflow-hidden">
-              <label className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 cursor-pointer">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2 min-w-0">
+            <Label className="text-xs font-medium">Foreground</Label>
+            <div className="flex items-center gap-2 p-2 border rounded-xl bg-muted/30 overflow-hidden">
+              <label className="relative w-9 h-9 flex-shrink-0 cursor-pointer">
                 <div
-                  className="w-full h-full rounded-lg border border-border/60 shadow-sm"
+                  className="w-9 h-9 rounded-lg border border-border/60 shadow-sm"
                   style={{ backgroundColor: settings.foreground }}
                 />
                 <input
@@ -61,16 +61,16 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
                     onChange({ ...settings, foreground: val });
                   }
                 }}
-                className="h-7 sm:h-8 min-w-0 flex-1 font-mono text-[10px] sm:text-xs bg-transparent border-none focus-visible:ring-0 px-0.5 sm:px-1"
+                className="h-8 min-w-0 flex-1 font-mono text-xs bg-transparent border-none focus-visible:ring-0 px-1"
               />
             </div>
           </div>
-          <div className="space-y-1.5 min-w-0">
-            <Label className="text-[10px] sm:text-xs font-medium uppercase tracking-tight sm:tracking-wider">Background</Label>
-            <div className="flex items-center gap-1.5 sm:gap-3 p-1.5 sm:p-2 border rounded-xl bg-muted/30 overflow-hidden">
-              <label className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 cursor-pointer">
+          <div className="space-y-2 min-w-0">
+            <Label className="text-xs font-medium">Background</Label>
+            <div className="flex items-center gap-2 p-2 border rounded-xl bg-muted/30 overflow-hidden">
+              <label className="relative w-9 h-9 flex-shrink-0 cursor-pointer">
                 <div
-                  className="w-full h-full rounded-lg border border-border/60 shadow-sm"
+                  className="w-9 h-9 rounded-lg border border-border/60 shadow-sm"
                   style={{ backgroundColor: settings.background }}
                 />
                 <input
@@ -89,7 +89,7 @@ const CustomizationStudio: React.FC<CustomizationStudioProps> = ({ settings, onC
                     onChange({ ...settings, background: val });
                   }
                 }}
-                className="h-7 sm:h-8 min-w-0 flex-1 font-mono text-[10px] sm:text-xs bg-transparent border-none focus-visible:ring-0 px-0.5 sm:px-1"
+                className="h-8 min-w-0 flex-1 font-mono text-xs bg-transparent border-none focus-visible:ring-0 px-1"
               />
             </div>
           </div>
