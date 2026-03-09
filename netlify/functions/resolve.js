@@ -17,9 +17,10 @@ export const handler = async (event) => {
     }
 
     // This section now matches your Supabase table names exactly
+       // 1. Fetch target and current count
     const { data, error } = await supabase
-      .from('dynamic_codes') 
-      .select('target_url')
+      .from('dynamic_codes')
+      .select('target_url, scan_count')
       .eq('id', id)
       .single();
 
@@ -27,6 +28,12 @@ export const handler = async (event) => {
       console.error("Database error or missing ID:", error);
       return { statusCode: 404, body: "Link not found" };
     }
+
+    // 2. THE FIX: Update the count in Supabase
+    await supabase
+      .from('dynamic_codes')
+      .update({ scan_count: (data.scan_count || 0) + 1 })
+      .eq('id', id);
 
     const target = data.target_url;
 
