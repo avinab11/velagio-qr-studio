@@ -83,7 +83,7 @@ async function handler(req: Request): Promise<Response> {
 
     if (isWifi || isPhone) {
       // Redirect to the client-side branded landing page
-      const siteOrigin = 'https://velagio-qr-studio-armx0fqk.sites.blink.new';
+      const siteOrigin = 'https://www.velagiofreeqr.com';
       return new Response(null, {
         status: 302,
         headers: {

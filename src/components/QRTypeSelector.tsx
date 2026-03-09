@@ -25,7 +25,7 @@ interface QRTypeSelectorProps {
   onChange: (settings: QRSettings) => void;
 }
 
-const RESOLVE_URL = 'https://armx0fqk--resolve.functions.blink.new';
+const SCAN_BASE_URL = 'https://www.velagiofreeqr.com/scan';
 
 const generateRandomString = (length: number) => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -64,7 +64,7 @@ const QRTypeSelector: React.FC<QRTypeSelectorProps> = ({ settings, onChange }) =
 
   const formatContent = (type: QRType, data: any): string => {
     if (data.isDynamic && data.dynamicId) {
-      return `${RESOLVE_URL}?id=${data.dynamicId}`;
+      return `${SCAN_BASE_URL}/${data.dynamicId}`;
     }
     return getActualContent(type, data);
   };
