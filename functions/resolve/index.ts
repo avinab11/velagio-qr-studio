@@ -82,8 +82,8 @@ async function handler(req: Request): Promise<Response> {
     const isPhone = typeof target === 'string' && target.startsWith('tel:');
 
     if (isWifi || isPhone) {
-      // Redirect to the client-side branded landing page
-      const siteOrigin = 'https://velagio-qr-studio-armx0fqk.sites.blink.new';
+      // Redirect to the client-side branded landing page on the custom domain
+      const siteOrigin = 'https://www.velagiofreeqr.com';
       return new Response(null, {
         status: 302,
         headers: {

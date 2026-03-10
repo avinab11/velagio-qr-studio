@@ -262,7 +262,7 @@ const GoPage: React.FC = () => {
 
         {/* Footer */}
         <p className="text-center text-[10px] text-muted-foreground">
-          Powered by <a href="https://velagio-qr-studio-armx0fqk.sites.blink.new" className="text-primary font-medium hover:underline">Velagio QR Studio</a>
+          Powered by <a href="https://www.velagiofreeqr.com" className="text-primary font-medium hover:underline">Velagio QR Studio</a>
         </p>
       </div>
     </div>

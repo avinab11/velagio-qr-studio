@@ -37,8 +37,23 @@ export const handler = async (event) => {
 
     const target = data.target_url;
 
-    // For tel: and WIFI: URIs, we still use a 302 redirect with Location header.
-    // Browsers/phones handle these natively (open dialer, connect to wifi).
+    // For WiFi and Phone types, redirect to the branded landing page
+    // instead of raw protocol URIs (which show blank pages in browsers)
+    const isWifi = typeof target === 'string' && target.startsWith('WIFI:');
+    const isPhone = typeof target === 'string' && target.startsWith('tel:');
+
+    if (isWifi || isPhone) {
+      return {
+        statusCode: 302,
+        headers: {
+          'Location': `https://www.velagiofreeqr.com/go?id=${id}`,
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        },
+        body: ''
+      };
+    }
+
+    // For normal HTTP URLs, redirect directly
     return {
       statusCode: 302,
       headers: { 
