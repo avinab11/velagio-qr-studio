@@ -39,7 +39,7 @@ const BulkQRManager: React.FC<BulkQRManagerProps> = ({ settings }) => {
           </div>
         </div>
         <Textarea
-          placeholder="https://google.com&#10;https://apple.com&#10;https://velagio.com"
+          placeholder="https://google.com&#10;https://apple.com&#10;https://velagiofreeqr.com"
           className="min-h-[120px] rounded-2xl border-border/50 bg-background/50 focus:ring-primary/20"
           value={urls}
           onChange={(e) => setUrls(e.target.value)}

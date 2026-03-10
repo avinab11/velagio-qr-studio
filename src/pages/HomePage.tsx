@@ -219,8 +219,7 @@ const HomePage: React.FC = () => {
                     <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Live Preview</h3>
                     <Badge variant="secondary" className="rounded-full bg-green-500/10 text-green-600 border-none font-bold text-[10px]">REAL-TIME</Badge>
                   </div>
-                  <QRPreview settings={settings} ref={qrRef} />
-                  <div className="space-y-3 pt-4 border-t border-border/40 px-2">
+          <div className="space-y-3 pb-4 border-b border-border/40 px-2">
                     <div className="flex justify-between text-xs font-medium">
                       <span className="text-muted-foreground">Type:</span>
                       <span className="capitalize">{settings.type}</span>
@@ -247,6 +246,7 @@ const HomePage: React.FC = () => {
                       <span className="capitalize">{settings.pixelStyle}</span>
                     </div>
                   </div>
+                  <QRPreview settings={settings} ref={qrRef} />
                 </div>
               </section>
             )}
