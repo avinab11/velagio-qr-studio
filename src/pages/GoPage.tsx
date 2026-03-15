@@ -83,12 +83,6 @@ const GoPage: React.FC = () => {
           country: 'Unknown',
         }).then(() => {});
 
-        supabase
-          .from('dynamic_codes')
-          .update({ scan_count: (code.scan_count || 0) + 1 })
-          .eq('id', id)
-          .then(() => {});
-
         // Determine page type from target_url
         if (target.startsWith('WIFI:')) {
           const info = parseWiFiString(target);
