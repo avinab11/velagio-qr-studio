@@ -1,7 +1,7 @@
 ---
 title: How to Use QR Codes Effectively for Your Business
 date: Feb 12, 2026
-image: https://images.unsplash.com/photo-1595079676339-1534801ad6cf?auto=format&fit=crop&q=80&w=800
+image: /images/blog/blog-qr-codes.png
 ---
 
 QR codes have quietly become one of the most powerful (and underrated) marketing tools for modern businesses. From restaurant menus and product packaging to digital payments and lead generation, QR codes bridge the gap between offline and online experiences instantly. With smartphones now scanning QR codes natively, there’s zero friction for customers and massive upside for businesses.
