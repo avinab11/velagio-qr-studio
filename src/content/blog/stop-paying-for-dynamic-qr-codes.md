@@ -1,7 +1,7 @@
 ---
 title: Why You Should Stop Paying for Dynamic QR Codes
 date: Feb 27, 2026
-image: https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&q=80&w=800
+image: /images/blog/6473c62f1abb27b86b9a73e0_article-img-2.png
 ---
 ## The Ultimate 2026 Guide to Free QR Management
 
