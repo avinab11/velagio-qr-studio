@@ -1,6 +1,5 @@
 ---
-title: The Professional Designer’s Guide to Flawless, Trackable Property
-  Marketing (2026 Edition)
+title: The Professional Designer’s Guide to Flawless, Trackable Property Marketing
 date: March 10, 2026
 image: /images/blog/1762269140586.png
 ---
